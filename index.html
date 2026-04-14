@@ -363,6 +363,44 @@
 
     #floormapFrame { width: 100%; flex: 1; border: none; }
 
+    /* 학과 홈페이지 핫스팟 */
+    .hs-dept {
+      position: absolute;
+      z-index: 90;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+    }
+
+    .hs-dept-circle {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: rgba(16,185,129,0.9);
+      border: 3px solid rgba(255,255,255,0.9);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      transition: transform 0.2s, border-color 0.2s;
+      color: #fff;
+    }
+
+    .hs-dept:hover .hs-dept-circle {
+      transform: scale(1.12);
+      border-color: #fff;
+      background: rgba(5,150,105,1);
+    }
+
+    .hs-dept-label {
+      position: absolute;
+      bottom: -26px; left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.72);
+      color: #fff; font-size: 10px;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-weight: 500; padding: 3px 8px;
+      border-radius: 4px; white-space: nowrap;
+      pointer-events: none;
+    }
+
     /* 좌표 확인 모드 */
     #coordPanel {
       position: fixed; top: 70px; right: 20px; z-index: 200;
@@ -552,13 +590,13 @@
       w11: {
         name: '공학 2호관',
         scenes: {
-          w111f: { label: '1층', file: 'images/w11/w111f.webp', prev: null,    next: 'w112f', hs: { next: { pitch: -3.8, yaw: 106.7 }, prev: { pitch: -10, yaw: 180 }, floormap: { pitch: 0.3, yaw: 123.6, file: 'floormaps/w11_1f.html' } } },
-          w112f: { label: '2층', file: 'images/w11/w112f.webp', prev: 'w111f', next: 'w113f', hs: { next: { pitch: 3.3, yaw: -43.1 }, prev: { pitch: -12.1, yaw: 93.6 } } },
-          w113f: { label: '3층', file: 'images/w11/w113f.webp', prev: 'w112f', next: 'w114f', hs: { next: { pitch: 2.2, yaw: -154.8 }, prev: { pitch: -0.8, yaw: -57 } } },
-          w114f: { label: '4층', file: 'images/w11/w114f.webp', prev: 'w113f', next: 'w115f', hs: { next: { pitch: -3.3, yaw: 16.2 }, prev: { pitch: -5.1, yaw: 119.5 } } },
-          w115f: { label: '5층', file: 'images/w11/w115f.webp', prev: 'w114f', next: 'w116f', hs: { next: { pitch: 0.4, yaw: -14.9 }, prev: { pitch: -6.5, yaw: 111.1 } } },
-          w116f: { label: '6층', file: 'images/w11/w116f.webp', prev: 'w115f', next: 'w117f', hs: { next: { pitch: 3.6, yaw: -99.6 }, prev: { pitch: -6.2, yaw: 46.2 } } },
-          w117f: { label: '7층', file: 'images/w11/w117f.webp', prev: 'w116f', next: null,    hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -2.4, yaw: -23.9 } } },
+          w111f: { label: '1층', file: 'images/w11/w111f.webp', prev: null,    next: 'w112f', hs: { next: { pitch: -3.8, yaw: 106.7 }, prev: { pitch: -10, yaw: 180 }, floormap: { pitch: 0.3, yaw: 123.6, file: 'floormaps/w11_1f.html' }, dept: { pitch: 1.7, yaw: 146.4, url: 'https://civil.gknu.ac.kr/', label: '건설시스템공학과' } } },
+          w112f: { label: '2층', file: 'images/w11/w112f.webp', prev: 'w111f', next: 'w113f', hs: { next: { pitch: 3.3, yaw: -43.1 }, prev: { pitch: -12.1, yaw: 93.6 }, dept: { pitch: 3.4, yaw: -5.6, url: 'https://sm.gknu.ac.kr/', label: '스마트모빌리티학과' } } },
+          w113f: { label: '3층', file: 'images/w11/w113f.webp', prev: 'w112f', next: 'w114f', hs: { next: { pitch: 2.2, yaw: -154.8 }, prev: { pitch: -0.8, yaw: -57 }, dept: { pitch: -8.7, yaw: 174.2, url: 'https://software.gknu.ac.kr/', label: '소프트웨어융합학부' } } },
+          w114f: { label: '4층', file: 'images/w11/w114f.webp', prev: 'w113f', next: 'w115f', hs: { next: { pitch: -3.3, yaw: 16.2 }, prev: { pitch: -5.1, yaw: 119.5 }, dept: { pitch: 0.9, yaw: 45.4, url: 'https://materials.anu.ac.kr/', label: '반도체·신소재공학과' } } },
+          w115f: { label: '5층', file: 'images/w11/w115f.webp', prev: 'w114f', next: 'w116f', hs: { next: { pitch: 0.4, yaw: -14.9 }, prev: { pitch: -6.5, yaw: 111.1 }, dept: { pitch: 7.1, yaw: -44.7, url: 'https://meched.gknu.ac.kr/', label: '기계교육과' } } },
+          w116f: { label: '6층', file: 'images/w11/w116f.webp', prev: 'w115f', next: 'w117f', hs: { next: { pitch: 3.6, yaw: -99.6 }, prev: { pitch: -6.2, yaw: 46.2 }, dept: { pitch: 7.7, yaw: -129.1, url: 'https://comedu.gknu.ac.kr/', label: '컴퓨터교육과' } } },
+          w117f: { label: '7층', file: 'images/w11/w117f.webp', prev: 'w116f', next: null,    hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -2.4, yaw: -23.9 }, dept: { pitch: 6.5, yaw: -161.9, url: 'https://eee.gknu.ac.kr/', label: '전기전자교육과' } } },
         }
       },
       w12: {
@@ -649,7 +687,7 @@
     document.getElementById('viewerPool').innerHTML = '';
   }
 
-  function removeHotspots() { document.querySelectorAll('.hs-wrap, .hs-floormap').forEach(el => el.remove()); }
+  function removeHotspots() { document.querySelectorAll('.hs-wrap, .hs-floormap, .hs-dept').forEach(el => el.remove()); }
 
   function renderHotspots(sceneId) {
     if (hsRafId) { cancelAnimationFrame(hsRafId); hsRafId = null; }
@@ -689,7 +727,16 @@
       container.appendChild(fmEl);
     }
 
-    // 전체 핫스팟 (이동 + 안내도) 위치 업데이트
+    // 학과 홈페이지 핫스팟
+    if (scene.hs && scene.hs.dept) {
+      const dp = scene.hs.dept;
+      const dpEl = createDeptHotspot(dp.label, dp.url);
+      fmHotspots.push({ pos: { pitch: dp.pitch, yaw: dp.yaw }, el: dpEl });
+      dpEl.addEventListener('click', (e) => { e.stopPropagation(); window.open(dp.url, '_blank'); });
+      container.appendChild(dpEl);
+    }
+
+    // 전체 핫스팟 (이동 + 안내도 + 학과) 위치 업데이트
     const allHotspots = [...hotspots, ...fmHotspots];
 
     function update() {
@@ -745,6 +792,20 @@
     label.textContent = '층별 안내도';
     wrap.appendChild(circle);
     wrap.appendChild(label);
+    return wrap;
+  }
+
+  function createDeptHotspot(label, url) {
+    const wrap = document.createElement('div');
+    wrap.className = 'hs-dept';
+    const circle = document.createElement('div');
+    circle.className = 'hs-dept-circle';
+    circle.textContent = 'H';
+    const lbl = document.createElement('div');
+    lbl.className = 'hs-dept-label';
+    lbl.textContent = label;
+    wrap.appendChild(circle);
+    wrap.appendChild(lbl);
     return wrap;
   }
 
