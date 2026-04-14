@@ -287,6 +287,82 @@
       pointer-events: none;
     }
 
+    /* 안내도 핫스팟 */
+    .hs-floormap {
+      position: absolute;
+      z-index: 90;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+    }
+
+    .hs-floormap-circle {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: rgba(46,125,247,0.9);
+      border: 3px solid rgba(255,255,255,0.9);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .hs-floormap:hover .hs-floormap-circle {
+      transform: scale(1.12);
+      border-color: #fff;
+      background: rgba(46,125,247,1);
+    }
+
+    .hs-floormap-label {
+      position: absolute;
+      bottom: -26px; left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.72);
+      color: #fff; font-size: 10px;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-weight: 500; padding: 3px 8px;
+      border-radius: 4px; white-space: nowrap;
+      pointer-events: none;
+    }
+
+    /* 층별 안내도 오버레이 */
+    #floormapOverlay {
+      position: fixed; inset: 0; z-index: 400;
+      background: rgba(0,0,0,0.75);
+      display: none; align-items: center; justify-content: center;
+    }
+    #floormapOverlay.show { display: flex; }
+
+    .floormap-modal {
+      background: #0d1b3e;
+      border: 1px solid rgba(46,125,247,0.4);
+      border-radius: 14px;
+      width: 92vw; max-width: 1100px;
+      height: 82vh;
+      display: flex; flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    }
+
+    .floormap-modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      flex-shrink: 0;
+    }
+
+    .floormap-modal-title { font-size: 15px; font-weight: 700; color: #fff; }
+
+    .floormap-close {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 6px; color: #fff;
+      font-size: 13px; padding: 5px 12px;
+      cursor: pointer; font-family: 'Noto Sans KR', sans-serif;
+    }
+    .floormap-close:hover { background: rgba(255,255,255,0.2); }
+
+    #floormapFrame { width: 100%; flex: 1; border: none; }
+
     /* 좌표 확인 모드 */
     #coordPanel {
       position: fixed; top: 70px; right: 20px; z-index: 200;
@@ -440,6 +516,17 @@
   </div>
 </div>
 
+<!-- 층별 안내도 오버레이 -->
+<div id="floormapOverlay" onclick="closeFloormap(event)">
+  <div class="floormap-modal">
+    <div class="floormap-modal-header">
+      <div class="floormap-modal-title" id="floormapTitle">층별 안내도</div>
+      <button class="floormap-close" onclick="closeFloormapBtn()">✕ 닫기</button>
+    </div>
+    <iframe id="floormapFrame" src=""></iframe>
+  </div>
+</div>
+
 <div id="pageTransition"></div>
 
 <script>
@@ -465,13 +552,13 @@
       w11: {
         name: '공학 2호관',
         scenes: {
-          w111f: { label: '1층', file: 'images/w11/w111f.webp', prev: null,    next: 'w112f', hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -10, yaw: 180 } } },
-          w112f: { label: '2층', file: 'images/w11/w112f.webp', prev: 'w111f', next: 'w113f', hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -10, yaw: 180 } } },
-          w113f: { label: '3층', file: 'images/w11/w113f.webp', prev: 'w112f', next: 'w114f', hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -10, yaw: 180 } } },
-          w114f: { label: '4층', file: 'images/w11/w114f.webp', prev: 'w113f', next: 'w115f', hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -10, yaw: 180 } } },
-          w115f: { label: '5층', file: 'images/w11/w115f.webp', prev: 'w114f', next: 'w116f', hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -10, yaw: 180 } } },
-          w116f: { label: '6층', file: 'images/w11/w116f.webp', prev: 'w115f', next: 'w117f', hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -10, yaw: 180 } } },
-          w117f: { label: '7층', file: 'images/w11/w117f.webp', prev: 'w116f', next: null,    hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -10, yaw: 180 } } },
+          w111f: { label: '1층', file: 'images/w11/w111f.webp', prev: null,    next: 'w112f', hs: { next: { pitch: -3.8, yaw: 106.7 }, prev: { pitch: -10, yaw: 180 }, floormap: { pitch: 0.3, yaw: 123.6, file: 'floormaps/w11_1f.html' } } },
+          w112f: { label: '2층', file: 'images/w11/w112f.webp', prev: 'w111f', next: 'w113f', hs: { next: { pitch: 3.3, yaw: -43.1 }, prev: { pitch: -12.1, yaw: 93.6 } } },
+          w113f: { label: '3층', file: 'images/w11/w113f.webp', prev: 'w112f', next: 'w114f', hs: { next: { pitch: 2.2, yaw: -154.8 }, prev: { pitch: -0.8, yaw: -57 } } },
+          w114f: { label: '4층', file: 'images/w11/w114f.webp', prev: 'w113f', next: 'w115f', hs: { next: { pitch: -3.3, yaw: 16.2 }, prev: { pitch: -5.1, yaw: 119.5 } } },
+          w115f: { label: '5층', file: 'images/w11/w115f.webp', prev: 'w114f', next: 'w116f', hs: { next: { pitch: 0.4, yaw: -14.9 }, prev: { pitch: -6.5, yaw: 111.1 } } },
+          w116f: { label: '6층', file: 'images/w11/w116f.webp', prev: 'w115f', next: 'w117f', hs: { next: { pitch: 3.6, yaw: -99.6 }, prev: { pitch: -6.2, yaw: 46.2 } } },
+          w117f: { label: '7층', file: 'images/w11/w117f.webp', prev: 'w116f', next: null,    hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -2.4, yaw: -23.9 } } },
         }
       },
       w12: {
@@ -562,7 +649,7 @@
     document.getElementById('viewerPool').innerHTML = '';
   }
 
-  function removeHotspots() { document.querySelectorAll('.hs-wrap').forEach(el => el.remove()); }
+  function removeHotspots() { document.querySelectorAll('.hs-wrap, .hs-floormap').forEach(el => el.remove()); }
 
   function renderHotspots(sceneId) {
     if (hsRafId) { cancelAnimationFrame(hsRafId); hsRafId = null; }
@@ -585,7 +672,25 @@
         hotspots.push({ targetId: ex.targetId, pos, el: createHotspotEl(ex.targetId, ex.dir || '↑') });
       });
     }
-    hotspots.forEach(hs => { hs.el.addEventListener('click', () => goToScene(hs.targetId)); container.appendChild(hs.el); });
+    // 이동 핫스팟 클릭 이벤트 및 DOM 추가
+    hotspots.forEach(hs => {
+      hs.el.addEventListener('click', () => goToScene(hs.targetId));
+      container.appendChild(hs.el);
+    });
+
+    // 안내도 핫스팟 (별도 배열로 관리)
+    const fmHotspots = [];
+    if (scene.hs && scene.hs.floormap) {
+      const fm = scene.hs.floormap;
+      const fmEl = createFloormapHotspot();
+      const fmTitle = currentBuilding.name + ' ' + scene.label + ' 안내도';
+      fmHotspots.push({ pos: { pitch: fm.pitch, yaw: fm.yaw }, el: fmEl });
+      fmEl.addEventListener('click', (e) => { e.stopPropagation(); openFloormap(fm.file, fmTitle); });
+      container.appendChild(fmEl);
+    }
+
+    // 전체 핫스팟 (이동 + 안내도) 위치 업데이트
+    const allHotspots = [...hotspots, ...fmHotspots];
 
     function update() {
       const v = viewers[activeSlot];
@@ -596,7 +701,7 @@
       try { camYaw = v.getYaw(); camPitch = v.getPitch(); hfov = v.getHfov(); }
       catch(e) { hsRafId = requestAnimationFrame(update); return; }
       const vfov = hfov * (H / W);
-      hotspots.forEach(hs => {
+      allHotspots.forEach(hs => {
         if (!hs.el.parentNode) return;
         let dy = hs.pos.yaw - camYaw;
         while (dy >  180) dy -= 360;
@@ -627,6 +732,38 @@
     const label = document.createElement('div'); label.className = 'hs-label'; label.textContent = targetScene.label;
     wrap.appendChild(circle); wrap.appendChild(label);
     return wrap;
+  }
+
+  function createFloormapHotspot() {
+    const wrap = document.createElement('div');
+    wrap.className = 'hs-floormap';
+    const circle = document.createElement('div');
+    circle.className = 'hs-floormap-circle';
+    circle.textContent = '🗺';
+    const label = document.createElement('div');
+    label.className = 'hs-floormap-label';
+    label.textContent = '층별 안내도';
+    wrap.appendChild(circle);
+    wrap.appendChild(label);
+    return wrap;
+  }
+
+  function openFloormap(file, title) {
+    document.getElementById('floormapTitle').textContent = title;
+    document.getElementById('floormapFrame').src = file;
+    document.getElementById('floormapOverlay').classList.add('show');
+  }
+
+  function closeFloormap(e) {
+    if (e.target === document.getElementById('floormapOverlay')) {
+      document.getElementById('floormapOverlay').classList.remove('show');
+      document.getElementById('floormapFrame').src = '';
+    }
+  }
+
+  function closeFloormapBtn() {
+    document.getElementById('floormapOverlay').classList.remove('show');
+    document.getElementById('floormapFrame').src = '';
   }
 
   function animateFOV(viewer, from, to, duration, onComplete) {
