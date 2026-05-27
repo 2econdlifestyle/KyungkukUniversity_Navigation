@@ -580,7 +580,7 @@
         <div class="building-icon">🏛️</div>
         <div class="building-name">공학 1호관</div>
         <div class="building-code">W10</div>
-        <div class="building-info">지상 6층 · 입구 · 각 층 복도</div>
+        <div class="building-info">지하 1층 ~ 지상 6층 · 입구 · 각 층 복도</div>
       </div>
       <div class="building-card" onclick="selectBuilding('w11', event)">
         <div class="building-icon">🏗️</div>
@@ -754,9 +754,10 @@
     w10: {
       name: '공학 1호관',
       scenes: {
-        w101f: { label: '1층', file: 'images/w10/w101f.webp', prev: null,   next: null,    hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -10, yaw: 180 }, extra: [{ targetId: 'w102f', pitch: 15.2, yaw: -140.8, dir: '↑' }] } },
-        w10e:  { label: '입구',     file: 'images/w10/w10e.webp',  prev: null,   next: 'w102f', hs: { next: { pitch: 3.4, yaw: -99.3 }, prev: { pitch: -10, yaw: 180 } } },
-        w102f: { label: '2층', file: 'images/w10/w102f.webp', prev: 'w10e', next: 'w103f', hs: { next: { pitch: 4, yaw: 45.6 }, prev: { pitch: -1.5, yaw: -155.3 }, extra: [{ targetId: 'w101f', pitch: -10.2, yaw: 59.5, dir: '↓' }] } },
+        w101f: { label: '지하 1층', file: 'images/w10/w101f.webp', prev: null,   next: null,    hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -10, yaw: 180 }, extra: [{ targetId: 'w10t', pitch: 15.2, yaw: -140.8, dir: '↑' }] } },
+        w10e:  { label: '입구',     file: 'images/w10/w10e.webp',  prev: null,   next: 'w10t',  hs: { next: { pitch: 3.4, yaw: -99.3 }, prev: { pitch: -10, yaw: 180 } } },
+        w10t:  { label: '1층',      file: 'images/w10/w10t.webp',  prev: 'w10e', next: 'w102f', hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -10, yaw: 180 }, extra: [{ targetId: 'w101f', pitch: -10, yaw: 90, dir: '↓' }] } },
+        w102f: { label: '2층', file: 'images/w10/w102f.webp', prev: 'w10t', next: 'w103f', hs: { next: { pitch: 4, yaw: 45.6 }, prev: { pitch: -1.5, yaw: -155.3 } } },
         w103f: { label: '3층', file: 'images/w10/w103f.webp', prev: 'w102f', next: 'w104f', hs: { next: { pitch: -4.8, yaw: 10.1 }, prev: { pitch: -10.8, yaw: 56.5 } } },
         w104f: { label: '4층', file: 'images/w10/w104f.webp', prev: 'w103f', next: 'w105f', hs: { next: { pitch: 2.4, yaw: -136.3 }, prev: { pitch: 1.6, yaw: -68.5 } } },
         w105f: { label: '5층', file: 'images/w10/w105f.webp', prev: 'w104f', next: 'w106f', hs: { next: { pitch: -5.1, yaw: 163.9 }, prev: { pitch: 1.7, yaw: -114.9 } } },
@@ -1237,7 +1238,8 @@
   const destinations = [
     // 공학 1호관
     { label: '공학 1호관 입구',     building: 'w10', sceneId: 'w10e',  tags: ['공학1','입구','w10'] },
-    { label: '공학 1호관 1층',      building: 'w10', sceneId: 'w101f', tags: ['공학1','1층','w10'] },
+    { label: '공학 1호관 지하 1층', building: 'w10', sceneId: 'w101f', tags: ['공학1','지하1층','w10'] },
+    { label: '공학 1호관 1층',      building: 'w10', sceneId: 'w10t',  tags: ['공학1','1층','w10'] },
     { label: '공학 1호관 2층',      building: 'w10', sceneId: 'w102f', tags: ['공학1','2층','w10'] },
     { label: '공학 1호관 3층',      building: 'w10', sceneId: 'w103f', tags: ['공학1','3층','w10'] },
     { label: '공학 1호관 4층',      building: 'w10', sceneId: 'w104f', tags: ['공학1','4층','w10'] },
@@ -1448,7 +1450,7 @@
   // 씬별 미니맵 좌표 (x,y: 0~120 범위, 각 씬의 상대 위치)
   const minimapCoords = {
     // 공학 1호관 (수직 배치)
-    w10e:  { x:60, y:190 }, w101f: { x:60, y:175 }, w102f: { x:60, y:150 },
+    w10e:  { x:60, y:190 }, w10t: { x:60, y:173 }, w101f: { x:30, y:182 }, w102f: { x:60, y:150 },
     w103f: { x:60, y:125 }, w104f: { x:60, y:100 }, w105f: { x:60, y:75 }, w106f: { x:60, y:50 },
     // 공학 2호관
     w111f: { x:60, y:190 }, w112f: { x:60, y:162 }, w113f: { x:60, y:134 },
@@ -1621,7 +1623,7 @@
      투어 모드
   ═══════════════════════════════════════════════════ */
   let tourActive = false, tourTimerId = null, tourRafId = null, tourStartTime = 0;
-  const TOUR_INTERVAL = 6000;
+  const TOUR_INTERVAL = 5000;
 
   function toggleTour() {
     if (tourActive) stopTour(); else startTour();
