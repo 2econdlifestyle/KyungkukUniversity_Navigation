@@ -425,6 +425,132 @@
       .guide { grid-template-columns: 1fr; }
       .hero h2 { font-size: 26px; }
     }
+
+    /* ── 미니맵 ── */
+    #minimap {
+      position: fixed !important;
+      bottom: 80px; right: 16px;
+      z-index: 150;
+      background: rgba(10,20,50,0.9);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 10px;
+      padding: 8px;
+      width: 140px;
+      backdrop-filter: blur(8px);
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    #minimap.hidden { display: none !important; }
+    .minimap-title {
+      font-size: 10px; color: rgba(255,255,255,0.5);
+      text-align: center; margin-bottom: 6px;
+      font-weight: 600; letter-spacing: 0.5px;
+    }
+    #minimapSvg { display: block; width: 100%; overflow: visible; }
+
+    /* ── 검색 바 ── */
+    .search-bar {
+      position: fixed; top: 70px; left: 50%; transform: translateX(-50%);
+      z-index: 200; width: min(420px, calc(100vw - 40px));
+    }
+    .search-input-wrap {
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(10,20,50,0.92); border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 12px; padding: 10px 14px; backdrop-filter: blur(10px);
+    }
+    .search-input-wrap input {
+      flex: 1; background: none; border: none; outline: none;
+      color: #fff; font-family: 'Noto Sans KR', sans-serif; font-size: 14px;
+    }
+    .search-input-wrap input::placeholder { color: rgba(255,255,255,0.4); }
+    .search-clear { background: none; border: none; color: rgba(255,255,255,0.4);
+      font-size: 16px; cursor: pointer; padding: 0 2px; line-height: 1; }
+    .search-clear:hover { color: #fff; }
+    .search-results {
+      background: rgba(10,20,50,0.96); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px; margin-top: 6px; overflow: hidden;
+      max-height: 260px; overflow-y: auto;
+    }
+    .search-result-item {
+      padding: 11px 16px; cursor: pointer;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      transition: background 0.15s; display: flex; align-items: center; gap: 10px;
+    }
+    .search-result-item:last-child { border-bottom: none; }
+    .search-result-item:hover { background: rgba(46,125,247,0.18); }
+    .search-result-item .sri-icon { font-size: 14px; flex-shrink: 0; }
+    .search-result-item .sri-main { font-size: 13px; font-weight: 600; }
+    .search-result-item .sri-sub { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 1px; }
+    .search-no-result { padding: 14px 16px; color: rgba(255,255,255,0.4); font-size: 13px; text-align: center; }
+    .sri-nav-btn {
+      background: rgba(46,125,247,0.2); border: 1px solid rgba(46,125,247,0.4);
+      border-radius: 6px; color: #2e7df7; font-size: 11px; font-weight: 600;
+      padding: 4px 10px; cursor: pointer; white-space: nowrap; margin-left: auto;
+    }
+    .sri-nav-btn:hover { background: rgba(46,125,247,0.4); }
+    /* ── 길찾기 안내 바 ── */
+    #navBar {
+      position: fixed; bottom: 68px; left: 50%; transform: translateX(-50%);
+      z-index: 200; width: min(480px, calc(100vw - 32px));
+      background: rgba(10,20,50,0.95); border: 1px solid rgba(46,125,247,0.4);
+      border-radius: 14px; padding: 14px 16px; backdrop-filter: blur(10px);
+      display: none; flex-direction: column; gap: 10px;
+    }
+    #navBar.show { display: flex; }
+    .nav-header { display: flex; align-items: center; justify-content: space-between; }
+    .nav-dest { font-size: 13px; font-weight: 700; color: #2e7df7; }
+    .nav-close-btn { background: none; border: none; color: rgba(255,255,255,0.5);
+      font-size: 16px; cursor: pointer; line-height: 1; }
+    .nav-step { font-size: 13px; color: #fff; }
+    .nav-progress { display: flex; align-items: center; gap: 8px; }
+    .nav-dots { display: flex; gap: 5px; flex: 1; }
+    .nav-dot { height: 4px; flex: 1; border-radius: 2px;
+      background: rgba(255,255,255,0.15); transition: background 0.3s; }
+    .nav-dot.done { background: #2e7df7; }
+    .nav-dot.current { background: #fff; }
+    .nav-step-label { font-size: 11px; color: rgba(255,255,255,0.5); white-space: nowrap; }
+    .nav-hint { font-size: 11px; color: rgba(255,255,255,0.4); text-align: center; }
+    /* ── 공유 토스트 ── */
+    #shareToast {
+      position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(20px);
+      z-index: 400; background: rgba(10,200,100,0.92); border-radius: 10px;
+      padding: 10px 20px; font-size: 13px; font-weight: 600;
+      opacity: 0; transition: all 0.3s; pointer-events: none; white-space: nowrap;
+    }
+    #shareToast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    /* ── 사이드 탭 ── */
+    .side-tabs { display: flex; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .side-tab {
+      flex: 1; padding: 10px; background: none; border: none;
+      color: rgba(255,255,255,0.5); font-family: 'Noto Sans KR', sans-serif;
+      font-size: 12px; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s;
+    }
+    .side-tab.active { color: #2e7df7; border-bottom-color: #2e7df7; }
+    .side-section { display: none; }
+    .side-section.active { display: block; }
+    .side-empty { padding: 20px; text-align: center; color: rgba(255,255,255,0.3); font-size: 12px; }
+    .fav-btn { background: none; border: none; color: rgba(255,255,255,0.4);
+      font-size: 16px; cursor: pointer; padding: 0; line-height: 1; margin-left: auto; }
+    .fav-btn.active { color: #f5a623; }
+    /* ── 투어 모드 ── */
+    /* ── 길찾기 강조 핫스팟 ── */
+    .hs-nav-highlight .hs-circle {
+      box-shadow: 0 0 0 4px rgba(46,125,247,0.6), 0 0 20px rgba(46,125,247,0.4) !important;
+      animation: navPulse 1s ease-in-out infinite !important;
+    }
+    @keyframes navPulse {
+      0%,100% { box-shadow: 0 0 0 4px rgba(46,125,247,0.6), 0 0 20px rgba(46,125,247,0.4); }
+      50%      { box-shadow: 0 0 0 8px rgba(46,125,247,0.3), 0 0 30px rgba(46,125,247,0.6); }
+    }
+    /* ── 투어 모드 진행 바 ── */
+    #tourProgressBar {
+      position: fixed; top: 56px; left: 0; right: 0; z-index: 101;
+      height: 3px; display: none;
+      background: linear-gradient(to right, #2e7df7, #5b9fff);
+      width: 0%;
+      transition: none;
+    }
+    #tourProgressBar.show { display: block; }
   </style>
 </head>
 <body>
@@ -498,6 +624,41 @@
 
 <!-- ══════ 뷰어 페이지 ══════ -->
 <div id="viewerPage">
+  <!-- ── 검색 바 ── -->
+  <div class="search-bar" id="searchBar" style="display:none">
+    <div class="search-input-wrap">
+      <span style="font-size:15px;opacity:0.6">🔍</span>
+      <input type="text" id="searchInput" placeholder="학과명, 건물, 층 검색..." autocomplete="off"
+        oninput="onSearchInput(this.value)" onkeydown="onSearchKey(event)"/>
+      <button class="search-clear" onclick="clearSearch()" id="searchClearBtn" style="display:none">✕</button>
+    </div>
+    <div class="search-results" id="searchResults" style="display:none"></div>
+  </div>
+
+  <!-- ── 미니맵 ── -->
+  <div id="minimap" class="hidden">
+    <div class="minimap-title">📍 현재 위치</div>
+    <svg id="minimapSvg" viewBox="0 0 120 200" width="124" height="170" style="display:block;overflow:visible"></svg>
+  </div>
+
+  <!-- ── 길찾기 안내 바 ── -->
+  <div id="navBar">
+    <div class="nav-header">
+      <span class="nav-dest" id="navDest"></span>
+      <button class="nav-close-btn" onclick="stopNavigation()">✕</button>
+    </div>
+    <div class="nav-step" id="navStep"></div>
+    <div class="nav-progress">
+      <div class="nav-dots" id="navDots"></div>
+      <span class="nav-step-label" id="navStepLabel"></span>
+    </div>
+    <div class="nav-hint">강조된 핫스팟을 클릭해 이동하세요</div>
+  </div>
+
+  <!-- ── 공유 토스트 ── -->
+  <div id="shareToast">🔗 링크가 복사됐어요!</div>
+
+
   <div id="initLoading">
     <div class="loading-spinner"></div>
     <p>360° 이미지 불러오는 중...</p>
@@ -524,10 +685,19 @@
   <div class="menu-overlay" id="menuOverlay" onclick="closeSideMenu()"></div>
   <div class="side-menu" id="sideMenu">
     <div class="side-menu-header">
-      <div class="side-menu-title">🏛️ 건물별 탐색</div>
+      <div class="side-menu-title">🏛️ 탐색</div>
       <button class="side-close" onclick="closeSideMenu()">✕</button>
     </div>
-    <div class="side-menu-body" id="sideMenuBody"></div>
+    <div class="side-tabs">
+      <button class="side-tab active" onclick="switchSideTab('nav',this)">건물 탐색</button>
+      <button class="side-tab" onclick="switchSideTab('fav',this)">⭐ 즐겨찾기</button>
+      <button class="side-tab" onclick="switchSideTab('hist',this)">🕐 방문기록</button>
+    </div>
+    <div class="side-menu-body">
+      <div id="sideMenuBody" class="side-section active"></div>
+      <div id="sideFavBody" class="side-section"></div>
+      <div id="sideHistBody" class="side-section"></div>
+    </div>
   </div>
 
   <div class="top-bar">
@@ -540,9 +710,15 @@
       <button class="icon-btn active" id="autoRotateBtn" data-tip="자동회전" onclick="toggleAutoRotate()">⟳</button>
       <button class="icon-btn" id="coordBtn" data-tip="좌표 확인" onclick="toggleCoordMode()">✛</button>
       <button class="icon-btn" data-tip="전체화면" onclick="toggleFullscreen()">⛶</button>
+      <button class="icon-btn" id="searchBtn" data-tip="검색" onclick="toggleSearch()">🔍</button>
+      <button class="icon-btn" id="favBtn" data-tip="즐겨찾기" onclick="toggleFav()">☆</button>
+      <button class="icon-btn" id="tourBtn" data-tip="투어 모드" onclick="toggleTour()">▶</button>
+      <button class="icon-btn" data-tip="공유" onclick="shareScene()">🔗</button>
       <button class="icon-btn" data-tip="건물 탐색" onclick="openSideMenu()">☰</button>
     </div>
   </div>
+  <!-- 투어 모드 진행 바 -->
+  <div id="tourProgressBar"></div>
 
   <div class="location-popup">
     <div class="location-popup-title" id="popupScene">로딩 중...</div>
@@ -658,25 +834,63 @@
   }
 
   const NORMAL_FOV = 100, ZOOM_OUT_FOV = 125, ZOOM_IN_FOV = 75, FOV_INTERVAL = 16;
-  let currentBuilding = null, currentBuildingCode = null;
+  let currentBuilding = null, currentBuildingCode = null, currentSceneId = null;
   let viewers = { A: null, B: null }, activeSlot = 'A';
   let isAutoRotate = true, isTransitioning = false;
   let viewerPool = {}, hsRafId = null;
+  const imgCache = {};
+
+  function preloadImage(src) {
+    if (imgCache[src]) return imgCache[src];
+    const img = new Image();
+    img.src = src;
+    imgCache[src] = img;
+    return img;
+  }
+
+  function preloadAdjacentImages(sceneId) {
+    const scene = currentBuilding.scenes[sceneId];
+    const toLoad = [];
+    if (scene.next) toLoad.push(currentBuilding.scenes[scene.next].file);
+    if (scene.prev) toLoad.push(currentBuilding.scenes[scene.prev].file);
+    if (scene.hs && scene.hs.extra) scene.hs.extra.forEach(e => {
+      if (currentBuilding.scenes[e.targetId]) toLoad.push(currentBuilding.scenes[e.targetId].file);
+    });
+    // 2단계 인접씬도 미리 캐시
+    setTimeout(() => {
+      if (scene.next) {
+        const n2 = currentBuilding.scenes[scene.next];
+        if (n2 && n2.next) preloadImage(currentBuilding.scenes[n2.next].file);
+        if (n2 && n2.prev) preloadImage(currentBuilding.scenes[n2.prev].file);
+      }
+      if (scene.prev) {
+        const p2 = currentBuilding.scenes[scene.prev];
+        if (p2 && p2.next) preloadImage(currentBuilding.scenes[p2.next].file);
+        if (p2 && p2.prev) preloadImage(currentBuilding.scenes[p2.prev].file);
+      }
+    }, 1500);
+    toLoad.forEach((src, i) => setTimeout(() => preloadImage(src), i * 100));
+  }
 
   function initViewer(buildingCode, sceneId) {
     currentBuildingCode = buildingCode;
     currentBuilding = buildingData[buildingCode];
+    currentSceneId = sceneId;
+    // searchBar는 버튼 클릭 시에만 표시 (toggleSearch)
     viewers = { A: null, B: null }; activeSlot = 'A';
-    isTransitioning = false; viewerPool = {};
+    isTransitioning = false; viewerPool = {}; Object.keys(imgCache).forEach(k => delete imgCache[k]);
     document.getElementById('buildingLabel').textContent = currentBuilding.name;
     document.getElementById('popupBuilding').textContent = currentBuilding.name;
     document.getElementById('initLoading').classList.remove('hide');
     document.getElementById('autoRotateBtn').classList.add('active');
-    updateUI(sceneId);
     firstLoad(sceneId);
   }
 
   function cleanupViewer() {
+    // 검색 닫기
+    if (searchOpen) toggleSearch();
+    stopNavigation();
+    stopTour();
     if (hsRafId) { cancelAnimationFrame(hsRafId); hsRafId = null; }
     removeHotspots();
     ['A','B'].forEach(s => { if (viewers[s]) { viewers[s].destroy(); viewers[s] = null; } });
@@ -771,7 +985,7 @@
   function createHotspotEl(targetId, arrow) {
     const targetScene = currentBuilding.scenes[targetId];
     const thumbPath = 'thumbnails/' + currentBuildingCode + '/' + targetId + '.webp';
-    const wrap = document.createElement('div'); wrap.className = 'hs-wrap';
+    const wrap = document.createElement('div'); wrap.className = 'hs-wrap'; wrap.dataset.target = targetId;
     const circle = document.createElement('div'); circle.className = 'hs-circle'; circle.textContent = arrow;
     const img = document.createElement('img'); img.className = 'hs-thumb'; img.src = thumbPath;
     img.onload = () => { img.style.opacity = '1'; circle.textContent = ''; circle.appendChild(img); };
@@ -839,29 +1053,23 @@
   }
 
   function prepareViewer(sceneId, onReady) {
-    if (viewerPool[sceneId]) {
-      if (onReady && viewerPool[sceneId].ready) onReady();
-      else if (onReady) viewerPool[sceneId].pendingCb = onReady;
-      return;
-    }
+    // 이미지 캐시만 사용 (숨김 뷰어 제거 - 렌더링 충돌 방지)
+    if (!currentBuilding || !currentBuilding.scenes[sceneId]) return;
     const scene = currentBuilding.scenes[sceneId];
-    const pool = document.getElementById('viewerPool');
-    const slot = document.createElement('div'); slot.className = 'pool-slot';
-    const inner = document.createElement('div'); inner.style.cssText = 'width:100%;height:100%;';
-    slot.appendChild(inner); pool.appendChild(slot);
-    const v = pannellum.viewer(inner, { type:'equirectangular', panorama:scene.file, autoLoad:true, autoRotate:false, compass:false, hfov:NORMAL_FOV, hotSpots:[] });
-    viewerPool[sceneId] = { viewer: v, ready: false, pendingCb: onReady || null };
-    v.on('load', () => { viewerPool[sceneId].ready = true; if (viewerPool[sceneId].pendingCb) { viewerPool[sceneId].pendingCb(); viewerPool[sceneId].pendingCb = null; } });
+    preloadImage(scene.file);
+    if (onReady) setTimeout(onReady, 100);
   }
 
   function prepareAdjacentScenes(sceneId) {
+    // 이미지 캐시 먼저 확보 (브라우저 캐시에 올려두면 Pannellum이 즉시 사용)
+    preloadAdjacentImages(sceneId);
     const scene = currentBuilding.scenes[sceneId];
-    if (scene.next) setTimeout(() => prepareViewer(scene.next), 300);
-    if (scene.prev) setTimeout(() => prepareViewer(scene.prev), 600);
+    if (scene.next) setTimeout(() => prepareViewer(scene.next), 500);
+    if (scene.prev) setTimeout(() => prepareViewer(scene.prev), 800);
     setTimeout(() => {
       if (scene.next && currentBuilding.scenes[scene.next].next) prepareViewer(currentBuilding.scenes[scene.next].next);
       if (scene.prev && currentBuilding.scenes[scene.prev].prev) prepareViewer(currentBuilding.scenes[scene.prev].prev);
-    }, 2000);
+    }, 3000);
   }
 
   function goToScene(sceneId) {
@@ -885,6 +1093,7 @@
         curSlotEl.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;';
         if (viewers[nxtSlot]) { viewers[nxtSlot].destroy(); viewers[nxtSlot] = null; }
         const scene = currentBuilding.scenes[sceneId];
+        // 이미지 캐시 덕분에 Pannellum이 빠르게 로드
         viewers[nxtSlot] = pannellum.viewer(freshDiv, { type:'equirectangular', panorama:scene.file, autoLoad:true, autoRotate:false, compass:false, hfov:ZOOM_IN_FOV, hotSpots:[] });
         viewers[nxtSlot].on('load', () => {
           setTimeout(() => {
@@ -905,8 +1114,8 @@
           }
         }, 5000);
       };
-      if (viewerPool[sceneId] && viewerPool[sceneId].ready) setTimeout(doTransition, 150);
-      else prepareViewer(sceneId, () => setTimeout(doTransition, 150));
+      prepareViewer(sceneId);
+      setTimeout(doTransition, 100);
     });
   }
 
@@ -917,16 +1126,38 @@
     panoEl.appendChild(freshDiv);
     slotEl.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:all;';
     const scene = currentBuilding.scenes[sceneId];
+    // 초기 로드 시 인접 이미지 즉시 캐시 시작
+    preloadAdjacentImages(sceneId);
     viewers['A'] = pannellum.viewer(freshDiv, { type:'equirectangular', panorama:scene.file, autoLoad:true, autoRotate:isAutoRotate?-1.5:0, compass:false, hfov:NORMAL_FOV, hotSpots:[] });
-    viewers['A'].on('load', () => { document.getElementById('initLoading').classList.add('hide'); prepareAdjacentScenes(sceneId); renderHotspots(sceneId); });
+    viewers['A'].on('load', () => { document.getElementById('initLoading').classList.add('hide'); updateUI(sceneId); prepareAdjacentScenes(sceneId); renderHotspots(sceneId); });
     setTimeout(() => { document.getElementById('initLoading').classList.add('hide'); }, 4000);
   }
 
   function updateUI(sceneId) {
+    currentSceneId = sceneId;
     const scene = currentBuilding.scenes[sceneId];
     document.getElementById('sceneLabel').textContent = scene.label;
     document.getElementById('popupScene').textContent = scene.label;
     renderChips(sceneId); renderSideMenu(sceneId);
+    // 미니맵 업데이트
+    updateMinimap(currentBuildingCode, sceneId);
+    // 즐겨찾기 버튼 상태
+    updateFavBtn();
+    // 방문 기록 추가
+    addHistory(currentBuildingCode, sceneId);
+    // 길찾기 진행 체크
+    if (navPath.length && navStep < navPath.length - 1) {
+      const expectedNext = navPath[navStep + 1];
+      if (sceneId === expectedNext) {
+        navStep++;
+        updateNavBar();
+        highlightNavHotspot();
+      } else if (navPath.includes(sceneId)) {
+        navStep = navPath.indexOf(sceneId);
+        updateNavBar();
+        highlightNavHotspot();
+      }
+    }
   }
 
   function renderSideMenu(activeSceneId) {
@@ -998,6 +1229,458 @@
       setTimeout(() => { btn.textContent = '좌표 복사'; }, 1500);
     });
   }
+
+
+  /* ═══════════════════════════════════════════════════
+     목적지 데이터 (검색 + 길찾기용)
+  ═══════════════════════════════════════════════════ */
+  const destinations = [
+    // 공학 1호관
+    { label: '공학 1호관 입구',     building: 'w10', sceneId: 'w10e',  tags: ['공학1','입구','w10'] },
+    { label: '공학 1호관 1층',      building: 'w10', sceneId: 'w101f', tags: ['공학1','1층','w10'] },
+    { label: '공학 1호관 2층',      building: 'w10', sceneId: 'w102f', tags: ['공학1','2층','w10'] },
+    { label: '공학 1호관 3층',      building: 'w10', sceneId: 'w103f', tags: ['공학1','3층','w10'] },
+    { label: '공학 1호관 4층',      building: 'w10', sceneId: 'w104f', tags: ['공학1','4층','w10'] },
+    { label: '공학 1호관 5층',      building: 'w10', sceneId: 'w105f', tags: ['공학1','5층','w10'] },
+    { label: '공학 1호관 6층',      building: 'w10', sceneId: 'w106f', tags: ['공학1','6층','w10'] },
+    // 공학 2호관
+    { label: '건설시스템공학과',    building: 'w11', sceneId: 'w111f', tags: ['건설','건설시스템','1층','공학2','w11'] },
+    { label: '공학 2호관 1층',      building: 'w11', sceneId: 'w111f', tags: ['공학2','1층','w11'] },
+    { label: '스마트모빌리티학과',  building: 'w11', sceneId: 'w112f', tags: ['스마트','모빌리티','2층','공학2','w11'] },
+    { label: '공학 2호관 2층',      building: 'w11', sceneId: 'w112f', tags: ['공학2','2층','w11'] },
+    { label: '소프트웨어융합학부',  building: 'w11', sceneId: 'w113f', tags: ['소프트웨어','융합','3층','공학2','w11'] },
+    { label: '공학 2호관 3층',      building: 'w11', sceneId: 'w113f', tags: ['공학2','3층','w11'] },
+    { label: '반도체·신소재공학과', building: 'w11', sceneId: 'w114f', tags: ['반도체','신소재','4층','공학2','w11'] },
+    { label: '공학 2호관 4층',      building: 'w11', sceneId: 'w114f', tags: ['공학2','4층','w11'] },
+    { label: '기계교육과',          building: 'w11', sceneId: 'w115f', tags: ['기계','교육','5층','공학2','w11'] },
+    { label: '공학 2호관 5층',      building: 'w11', sceneId: 'w115f', tags: ['공학2','5층','w11'] },
+    { label: '컴퓨터교육과',        building: 'w11', sceneId: 'w116f', tags: ['컴퓨터','교육','6층','공학2','w11'] },
+    { label: '공학 2호관 6층',      building: 'w11', sceneId: 'w116f', tags: ['공학2','6층','w11'] },
+    { label: '전기전자교육과',      building: 'w11', sceneId: 'w117f', tags: ['전기','전자','7층','공학2','w11'] },
+    { label: '공학 2호관 7층',      building: 'w11', sceneId: 'w117f', tags: ['공학2','7층','w11'] },
+    // 공학 3호관
+    { label: '공학 3호관 메인홀',   building: 'w12', sceneId: 'w12m',  tags: ['공학3','메인홀','w12'] },
+    { label: '공학 3호관 입구',     building: 'w12', sceneId: 'w12e',  tags: ['공학3','입구','w12'] },
+    { label: '공학 3호관 1층',      building: 'w12', sceneId: 'w121f', tags: ['공학3','1층','w12'] },
+    { label: '공학 3호관 2층',      building: 'w12', sceneId: 'w122f', tags: ['공학3','2층','w12'] },
+    { label: '공학 3호관 3층',      building: 'w12', sceneId: 'w123f', tags: ['공학3','3층','w12'] },
+    { label: '공학 3호관 4층',      building: 'w12', sceneId: 'w124f', tags: ['공학3','4층','w12'] },
+  ];
+
+  /* ═══════════════════════════════════════════════════
+     검색 기능
+  ═══════════════════════════════════════════════════ */
+  let searchOpen = false;
+
+  function toggleSearch() {
+    searchOpen = !searchOpen;
+    const bar = document.getElementById('searchBar');
+    const btn = document.getElementById('searchBtn');
+    bar.style.display = searchOpen ? 'block' : 'none';
+    btn.classList.toggle('active', searchOpen);
+    if (searchOpen) {
+      setTimeout(() => document.getElementById('searchInput').focus(), 100);
+    } else {
+      clearSearch();
+    }
+  }
+
+  function clearSearch() {
+    document.getElementById('searchInput').value = '';
+    document.getElementById('searchResults').style.display = 'none';
+    document.getElementById('searchClearBtn').style.display = 'none';
+  }
+
+  function onSearchInput(val) {
+    const clear = document.getElementById('searchClearBtn');
+    const results = document.getElementById('searchResults');
+    clear.style.display = val ? 'block' : 'none';
+    if (!val.trim()) { results.style.display = 'none'; return; }
+
+    const q = val.trim().toLowerCase();
+    const matched = destinations.filter(d =>
+      d.label.toLowerCase().includes(q) ||
+      d.tags.some(t => t.toLowerCase().includes(q))
+    ).slice(0, 8);
+
+    results.style.display = 'block';
+    if (!matched.length) {
+      results.innerHTML = '<div class="search-no-result">검색 결과가 없어요</div>';
+      return;
+    }
+
+    results.innerHTML = matched.map((d, i) => {
+      const bName = buildingData[d.building]?.name || '';
+      const sName = buildingData[d.building]?.scenes[d.sceneId]?.label || '';
+      const isCurrent = currentBuilding && currentSceneId === d.sceneId;
+      return `<div class="search-result-item" onclick="goToSearchResult('${d.building}','${d.sceneId}')">
+        <span class="sri-icon">📍</span>
+        <div>
+          <div class="sri-main">${d.label}</div>
+          <div class="sri-sub">${bName} · ${sName}</div>
+        </div>
+        <div class="sri-nav">
+          ${isCurrent
+            ? '<span style="font-size:11px;color:rgba(255,255,255,0.4)">현재 위치</span>'
+            : `<button class="sri-nav-btn" onclick="event.stopPropagation();startNavigation('${d.building}','${d.sceneId}','${d.label}')">길찾기</button>`
+          }
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function onSearchKey(e) {
+    if (e.key === 'Escape') toggleSearch();
+  }
+
+  function goToSearchResult(buildingCode, sceneId) {
+    clearSearch();
+    toggleSearch();
+    if (!currentBuilding || currentBuildingCode !== buildingCode) {
+      enterViewer(buildingCode, sceneId);
+    } else {
+      goToScene(sceneId);
+    }
+  }
+
+  /* ═══════════════════════════════════════════════════
+     BFS 길찾기
+  ═══════════════════════════════════════════════════ */
+  let navPath = [], navStep = 0, navDestLabel = '';
+
+  function buildGraph(building) {
+    const graph = {};
+    Object.keys(building.scenes).forEach(id => {
+      graph[id] = [];
+      const s = building.scenes[id];
+      if (s.next) graph[id].push(s.next);
+      if (s.prev) graph[id].push(s.prev);
+      if (s.hs?.extra) s.hs.extra.forEach(e => {
+        if (building.scenes[e.targetId]) graph[id].push(e.targetId);
+      });
+    });
+    return graph;
+  }
+
+  function bfsPath(graph, start, end) {
+    if (start === end) return [start];
+    const queue = [[start]], visited = new Set([start]);
+    while (queue.length) {
+      const path = queue.shift();
+      for (const next of (graph[path[path.length-1]] || [])) {
+        if (!visited.has(next)) {
+          const np = [...path, next];
+          if (next === end) return np;
+          visited.add(next); queue.push(np);
+        }
+      }
+    }
+    return null;
+  }
+
+  function startNavigation(buildingCode, destSceneId, destLabel) {
+    clearSearch();
+    if (searchOpen) toggleSearch();
+
+    // 다른 건물이면 먼저 이동
+    if (!currentBuilding || currentBuildingCode !== buildingCode) {
+      enterViewer(buildingCode, Object.keys(buildingData[buildingCode].scenes)[0]);
+      setTimeout(() => startNavigation(buildingCode, destSceneId, destLabel), 1200);
+      return;
+    }
+
+    const graph = buildGraph(currentBuilding);
+    const path = bfsPath(graph, currentSceneId, destSceneId);
+    if (!path) { alert('경로를 찾을 수 없어요.'); return; }
+
+    navPath = path; navStep = 0; navDestLabel = destLabel;
+    updateNavBar();
+    document.getElementById('navBar').classList.add('show');
+    highlightNavHotspot();
+  }
+
+  function updateNavBar() {
+    const total = navPath.length - 1;
+    const curr = navStep;
+    document.getElementById('navDest').textContent = '🧭 ' + navDestLabel;
+
+    if (curr >= total) {
+      document.getElementById('navStep').textContent = '🎉 목적지에 도착했어요!';
+      document.getElementById('navHint') && (document.getElementById('navHint').style.display = 'none');
+      setTimeout(stopNavigation, 2500);
+    } else {
+      const nextScene = currentBuilding.scenes[navPath[curr+1]];
+      document.getElementById('navStep').textContent =
+        `→ ${nextScene?.label || navPath[curr+1]} 으로 이동하세요`;
+    }
+
+    // 도트 렌더
+    const dots = document.getElementById('navDots');
+    dots.innerHTML = navPath.map((_, i) => {
+      const cls = i < curr ? 'done' : i === curr ? 'current' : '';
+      return `<div class="nav-dot ${cls}"></div>`;
+    }).join('');
+    document.getElementById('navStepLabel').textContent = `${curr+1} / ${total+1}`;
+  }
+
+  function stopNavigation() {
+    navPath = []; navStep = 0;
+    document.getElementById('navBar').classList.remove('show');
+    document.querySelectorAll('.hs-nav-highlight').forEach(el => el.classList.remove('hs-nav-highlight'));
+  }
+
+  function highlightNavHotspot() {
+    document.querySelectorAll('.hs-nav-highlight').forEach(el => el.classList.remove('hs-nav-highlight'));
+    if (navStep >= navPath.length - 1) return;
+    const nextId = navPath[navStep + 1];
+    // hs-wrap 중에서 next 씬 ID를 data로 가진 것 강조
+    document.querySelectorAll('.hs-wrap[data-target="' + nextId + '"]').forEach(el => {
+      el.classList.add('hs-nav-highlight');
+    });
+  }
+
+  // goToScene 이후 길찾기 진행 체크 (기존 함수에 후킹)
+  const _origGoToScene = goToScene;
+
+  /* ═══════════════════════════════════════════════════
+     미니맵
+  ═══════════════════════════════════════════════════ */
+  // 씬별 미니맵 좌표 (x,y: 0~120 범위, 각 씬의 상대 위치)
+  const minimapCoords = {
+    // 공학 1호관 (수직 배치)
+    w10e:  { x:60, y:190 }, w101f: { x:60, y:175 }, w102f: { x:60, y:150 },
+    w103f: { x:60, y:125 }, w104f: { x:60, y:100 }, w105f: { x:60, y:75 }, w106f: { x:60, y:50 },
+    // 공학 2호관
+    w111f: { x:60, y:190 }, w112f: { x:60, y:162 }, w113f: { x:60, y:134 },
+    w114f: { x:60, y:106 }, w115f: { x:60, y:78  }, w116f: { x:60, y:50  }, w117f: { x:60, y:22  },
+    // 공학 3호관
+    w12m:  { x:60, y:190 }, w12t:  { x:60, y:165 }, w12e:  { x:60, y:140 },
+    w121f: { x:60, y:115 }, w122f: { x:60, y:90  }, w123f: { x:60, y:65  }, w124f: { x:60, y:40  },
+  };
+
+  function updateMinimap(buildingCode, sceneId) {
+    const mm = document.getElementById('minimap');
+    const svg = document.getElementById('minimapSvg');
+    if (!buildingCode || !currentBuilding) { mm.classList.add('hidden'); return; }
+
+    mm.classList.remove('hidden');
+    const scenes = Object.keys(currentBuilding.scenes);
+    const coords = scenes.map(id => minimapCoords[id]).filter(Boolean);
+
+    // 모든 씬 점 + 연결선 그리기
+    let svgContent = '';
+    // 연결선
+    scenes.forEach(id => {
+      const s = currentBuilding.scenes[id];
+      const from = minimapCoords[id];
+      if (!from) return;
+      if (s.next && minimapCoords[s.next]) {
+        const to = minimapCoords[s.next];
+        svgContent += `<line x1="${from.x}" y1="${from.y}" x2="${to.x}" y2="${to.y}" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>`;
+      }
+    });
+    // 씬 점
+    scenes.forEach(id => {
+      const c = minimapCoords[id];
+      if (!c) return;
+      const isCur = id === sceneId;
+      const label = currentBuilding.scenes[id]?.label || '';
+      if (isCur) {
+        svgContent += `<circle cx="${c.x}" cy="${c.y}" r="6" fill="#2e7df7" stroke="#fff" stroke-width="1.5"/>`;
+        svgContent += `<text x="${c.x+10}" y="${c.y+4}" fill="#2e7df7" font-size="9" font-family="Noto Sans KR">${label}</text>`;
+      } else {
+        svgContent += `<circle cx="${c.x}" cy="${c.y}" r="3.5" fill="rgba(255,255,255,0.35)" stroke="rgba(255,255,255,0.6)" stroke-width="1"/>`;
+      }
+    });
+    svg.innerHTML = svgContent;
+  }
+
+  /* ═══════════════════════════════════════════════════
+     공유 링크
+  ═══════════════════════════════════════════════════ */
+  function shareScene() {
+    const url = new URL(window.location.href);
+    url.searchParams.set('b', currentBuildingCode || '');
+    url.searchParams.set('s', currentSceneId || '');
+    navigator.clipboard.writeText(url.toString()).then(() => {
+      const toast = document.getElementById('shareToast');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }).catch(() => {
+      prompt('이 링크를 복사하세요:', url.toString());
+    });
+  }
+
+  // URL 파라미터로 직접 진입
+  function checkUrlParams() {
+    const p = new URLSearchParams(window.location.search);
+    const b = p.get('b'), s = p.get('s');
+    if (b && s && buildingData[b] && buildingData[b].scenes[s]) {
+      setTimeout(() => enterViewer(b, s), 100);
+    }
+  }
+
+  /* ═══════════════════════════════════════════════════
+     즐겨찾기
+  ═══════════════════════════════════════════════════ */
+  function getFavs() { return JSON.parse(localStorage.getItem('hemae_favs') || '[]'); }
+  function saveFavs(arr) { localStorage.setItem('hemae_favs', JSON.stringify(arr)); }
+
+  function toggleFav() {
+    if (!currentSceneId) return;
+    const favs = getFavs();
+    const key = currentBuildingCode + '|' + currentSceneId;
+    const idx = favs.findIndex(f => f.key === key);
+    const btn = document.getElementById('favBtn');
+    if (idx >= 0) {
+      favs.splice(idx, 1);
+      btn.textContent = '☆'; btn.classList.remove('active');
+    } else {
+      favs.unshift({ key, building: currentBuildingCode, scene: currentSceneId,
+        label: (currentBuilding?.name || '') + ' ' + (currentBuilding?.scenes[currentSceneId]?.label || '') });
+      btn.textContent = '⭐'; btn.classList.add('active');
+    }
+    saveFavs(favs);
+    renderFavList();
+  }
+
+  function updateFavBtn() {
+    if (!currentSceneId) return;
+    const key = currentBuildingCode + '|' + currentSceneId;
+    const isFav = getFavs().some(f => f.key === key);
+    const btn = document.getElementById('favBtn');
+    if (btn) { btn.textContent = isFav ? '⭐' : '☆'; btn.classList.toggle('active', isFav); }
+  }
+
+  function renderFavList() {
+    const body = document.getElementById('sideFavBody');
+    const favs = getFavs();
+    if (!favs.length) { body.innerHTML = '<div class="side-empty">즐겨찾기가 없어요</div>'; return; }
+    body.innerHTML = favs.map(f => `
+      <button class="side-scene-btn" onclick="goToSearchResult('${f.building}','${f.scene}');closeSideMenu()">
+        <span class="dot"></span><span style="flex:1">${f.label}</span>
+        <button class="fav-btn active" onclick="event.stopPropagation();removeFav('${f.key}')">⭐</button>
+      </button>`).join('');
+  }
+
+  function removeFav(key) {
+    const favs = getFavs().filter(f => f.key !== key);
+    saveFavs(favs); renderFavList(); updateFavBtn();
+  }
+
+  /* ═══════════════════════════════════════════════════
+     방문 기록
+  ═══════════════════════════════════════════════════ */
+  function getHistory() { return JSON.parse(localStorage.getItem('hemae_hist') || '[]'); }
+  function addHistory(buildingCode, sceneId) {
+    if (!buildingCode || !sceneId) return;
+    const hist = getHistory();
+    const label = (buildingData[buildingCode]?.name || '') + ' ' +
+                  (buildingData[buildingCode]?.scenes[sceneId]?.label || '');
+    const key = buildingCode + '|' + sceneId;
+    const filtered = hist.filter(h => h.key !== key);
+    filtered.unshift({ key, building: buildingCode, scene: sceneId, label, time: Date.now() });
+    localStorage.setItem('hemae_hist', JSON.stringify(filtered.slice(0, 20)));
+  }
+
+  function renderHistList() {
+    const body = document.getElementById('sideHistBody');
+    const hist = getHistory();
+    if (!hist.length) { body.innerHTML = '<div class="side-empty">방문 기록이 없어요</div>'; return; }
+    body.innerHTML = hist.map(h => {
+      const ago = timeAgo(h.time);
+      return `<button class="side-scene-btn" onclick="goToSearchResult('${h.building}','${h.scene}');closeSideMenu()">
+        <span class="dot"></span>
+        <span style="flex:1">${h.label}<br><span style="font-size:10px;color:rgba(255,255,255,0.35)">${ago}</span></span>
+      </button>`;
+    }).join('');
+  }
+
+  function timeAgo(ts) {
+    const diff = (Date.now() - ts) / 1000;
+    if (diff < 60) return '방금 전';
+    if (diff < 3600) return Math.floor(diff/60) + '분 전';
+    if (diff < 86400) return Math.floor(diff/3600) + '시간 전';
+    return Math.floor(diff/86400) + '일 전';
+  }
+
+  /* ═══════════════════════════════════════════════════
+     사이드 탭 전환
+  ═══════════════════════════════════════════════════ */
+  function switchSideTab(tab, btn) {
+    document.querySelectorAll('.side-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('sideMenuBody').classList.toggle('active', tab==='nav');
+    document.getElementById('sideFavBody').classList.toggle('active', tab==='fav');
+    document.getElementById('sideHistBody').classList.toggle('active', tab==='hist');
+    if (tab === 'fav') renderFavList();
+    if (tab === 'hist') renderHistList();
+  }
+
+  /* ═══════════════════════════════════════════════════
+     투어 모드
+  ═══════════════════════════════════════════════════ */
+  let tourActive = false, tourTimerId = null, tourRafId = null, tourStartTime = 0;
+  const TOUR_INTERVAL = 6000;
+
+  function toggleTour() {
+    if (tourActive) stopTour(); else startTour();
+  }
+
+  function startTour() {
+    if (!currentBuilding) return;
+    tourActive = true;
+    const btn = document.getElementById('tourBtn');
+    if (btn) { btn.textContent = '■'; btn.classList.add('active'); btn.dataset.tip = '투어 중지'; }
+    document.getElementById('tourProgressBar').classList.add('show');
+    scheduleTourStep();
+  }
+
+  function stopTour() {
+    tourActive = false;
+    if (tourTimerId) { clearTimeout(tourTimerId); tourTimerId = null; }
+    if (tourRafId)   { cancelAnimationFrame(tourRafId); tourRafId = null; }
+    const btn = document.getElementById('tourBtn');
+    if (btn) { btn.textContent = '▶'; btn.classList.remove('active'); btn.dataset.tip = '투어 모드'; }
+    const bar = document.getElementById('tourProgressBar');
+    if (bar) { bar.classList.remove('show'); bar.style.width = '0%'; }
+  }
+
+  function scheduleTourStep() {
+    if (!tourActive) return;
+    const scenes = Object.keys(currentBuilding.scenes);
+    const curIdx = scenes.indexOf(currentSceneId);
+    const nextId = scenes[(curIdx < 0 ? 0 : curIdx + 1) % scenes.length];
+    const bar = document.getElementById('tourProgressBar');
+    tourStartTime = Date.now();
+    if (bar) bar.style.width = '0%';
+
+    function animBar() {
+      if (!tourActive) return;
+      const pct = Math.min((Date.now() - tourStartTime) / TOUR_INTERVAL * 100, 100);
+      if (bar) bar.style.width = pct + '%';
+      if (pct < 100) tourRafId = requestAnimationFrame(animBar);
+    }
+    tourRafId = requestAnimationFrame(animBar);
+
+    tourTimerId = setTimeout(() => {
+      if (!tourActive) return;
+      if (tourRafId) { cancelAnimationFrame(tourRafId); tourRafId = null; }
+      if (bar) bar.style.width = '0%';
+      goToScene(nextId);
+      setTimeout(() => { if (tourActive) scheduleTourStep(); }, 400);
+    }, TOUR_INTERVAL);
+  }
+
+
+
+  /* ═══════════════════════════════════════════════════
+     기존 함수 확장 — updateUI 후킹
+  ═══════════════════════════════════════════════════ */
+
+  // 초기화 시 URL 파라미터 체크
+  window.addEventListener('load', checkUrlParams);
+
 </script>
 </body>
 </html>
