@@ -353,7 +353,7 @@
       border: 1px solid rgba(46,125,247,0.4);
       border-radius: 14px;
       width: 92vw; max-width: 1100px;
-      height: 82vh;
+      max-height: 90vh;
       display: flex; flex-direction: column;
       overflow: hidden;
       box-shadow: 0 20px 60px rgba(0,0,0,0.6);
@@ -377,7 +377,19 @@
     }
     .floormap-close:hover { background: rgba(255,255,255,0.2); }
 
-    #floormapFrame { width: 100%; flex: 1; border: none; }
+    .floormap-img-wrap {
+      flex: 1; overflow: auto;
+      display: flex; align-items: center; justify-content: center;
+      background: #fff; padding: 16px;
+    }
+    #floormapImg {
+      max-width: 100%; height: auto;
+      display: block; border-radius: 4px;
+      cursor: zoom-in;
+    }
+    #floormapImg.zoomed {
+      max-width: none; cursor: zoom-out;
+    }
 
     /* 학과 홈페이지 핫스팟 */
     .hs-dept {
@@ -828,7 +840,9 @@
       <div class="floormap-modal-title" id="floormapTitle">층별 안내도</div>
       <button class="floormap-close" onclick="closeFloormapBtn()">✕ 닫기</button>
     </div>
-    <iframe id="floormapFrame" src=""></iframe>
+    <div class="floormap-img-wrap">
+      <img id="floormapImg" src="" alt="층별 안내도" onclick="toggleFloormapZoom(this)">
+    </div>
   </div>
 </div>
 
@@ -858,7 +872,7 @@
       w11: {
         name: '공학 2호관',
         scenes: {
-          w111f: { label: '1층', file: 'images/w11/w111f.webp', prev: null,    next: 'w112f', hs: { next: { pitch: -3.8, yaw: 106.7 }, prev: { pitch: -10, yaw: 180 }, floormap: { pitch: 0.3, yaw: 123.6, file: 'floormaps/w11_1f.html' }, dept: { pitch: 1.7, yaw: 146.4, url: 'https://civil.gknu.ac.kr/', label: '건설시스템공학과' } } },
+          w111f: { label: '1층', file: 'images/w11/w111f.webp', prev: null,    next: 'w112f', hs: { next: { pitch: -3.8, yaw: 106.7 }, prev: { pitch: -10, yaw: 180 }, floormap: { pitch: 0.3, yaw: 123.6, file: 'floormaps/w11_1f.png' }, dept: { pitch: 1.7, yaw: 146.4, url: 'https://civil.gknu.ac.kr/', label: '건설시스템공학과' } } },
           w112f: { label: '2층', file: 'images/w11/w112f.webp', prev: 'w111f', next: 'w113f', hs: { next: { pitch: 3.3, yaw: -43.1 }, prev: { pitch: -12.1, yaw: 93.6 }, dept: { pitch: 3.4, yaw: -5.6, url: 'https://sm.gknu.ac.kr/', label: '스마트모빌리티학과' } } },
           w113f: { label: '3층', file: 'images/w11/w113f.webp', prev: 'w112f', next: 'w114f', hs: { next: { pitch: 2.2, yaw: -154.8 }, prev: { pitch: -0.8, yaw: -57 }, dept: { pitch: -8.7, yaw: 174.2, url: 'https://software.gknu.ac.kr/', label: '소프트웨어융합학부' } } },
           w114f: { label: '4층', file: 'images/w11/w114f.webp', prev: 'w113f', next: 'w115f', hs: { next: { pitch: -3.3, yaw: 16.2 }, prev: { pitch: -5.1, yaw: 119.5 }, dept: { pitch: 0.9, yaw: 45.4, url: 'https://materials.anu.ac.kr/', label: '반도체·신소재공학과' } } },
@@ -1207,20 +1221,26 @@
 
   function openFloormap(file, title) {
     document.getElementById('floormapTitle').textContent = title;
-    document.getElementById('floormapFrame').src = file;
+    const img = document.getElementById('floormapImg');
+    img.src = file;
+    img.classList.remove('zoomed');
     document.getElementById('floormapOverlay').classList.add('show');
   }
 
   function closeFloormap(e) {
     if (e.target === document.getElementById('floormapOverlay')) {
       document.getElementById('floormapOverlay').classList.remove('show');
-      document.getElementById('floormapFrame').src = '';
+      document.getElementById('floormapImg').src = '';
     }
   }
 
   function closeFloormapBtn() {
     document.getElementById('floormapOverlay').classList.remove('show');
-    document.getElementById('floormapFrame').src = '';
+    document.getElementById('floormapImg').src = '';
+  }
+
+  function toggleFloormapZoom(img) {
+    img.classList.toggle('zoomed');
   }
 
   function animateFOV(viewer, from, to, duration, onComplete) {
