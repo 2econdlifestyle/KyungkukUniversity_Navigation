@@ -623,6 +623,12 @@
       <span style="font-size:11px;font-weight:400;color:var(--gray);letter-spacing:0;text-transform:none;">촬영 완료 후 순차 추가</span>
     </p>
     <div class="buildings" style="grid-template-columns:repeat(3,1fr);">
+      <div class="building-card" onclick="selectBuilding('e2', event)">
+        <div class="building-icon">🏫</div>
+        <div class="building-name">창의인재관</div>
+        <div class="building-code">E2</div>
+        <div class="building-info">지상 3층 · 입구 · 각 층 복도</div>
+      </div>
       <div class="building-card soon">
         <div class="building-icon">📚</div>
         <div class="building-name">중앙도서관</div>
@@ -647,6 +653,12 @@
         <div class="building-name">자연·생명과학2호관</div>
         <div class="building-code">E11</div>
         <div class="building-info">지상 5층 · 입구 · 각 층 복도</div>
+      </div>
+      <div class="building-card" onclick="selectBuilding('e10_1', event)">
+        <div class="building-icon">🧪</div>
+        <div class="building-name">백신생명공학동</div>
+        <div class="building-code">E10-1</div>
+        <div class="building-info">지상 3층 · 각 층 복도</div>
       </div>
       <div class="building-card soon">
         <div class="building-icon">🎭</div>
@@ -938,6 +950,23 @@
           e141fb: { label: '1층 복도',   file: 'images/e14/e141fb.webp', prev: 'e141fa',next: 'e142f',  hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -10, yaw: 180 } } },
           e142f:  { label: '2층',        file: 'images/e14/e142f.webp',  prev: 'e141fb',next: 'e143f',  hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -10, yaw: 180 } } },
           e143f:  { label: '3층',        file: 'images/e14/e143f.webp',  prev: 'e142f', next: null,     hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -10, yaw: 180 } } },
+        }
+      },
+      e2: {
+        name: '창의인재관',
+        scenes: {
+          e2e:  { label: '입구',  file: 'images/e2/e2e.webp',   prev: null,  next: 'e21f', hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -10, yaw: 180 } } },
+          e21f: { label: '1층',   file: 'images/e2/e21f.webp',  prev: 'e2e', next: 'e22f', hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -10, yaw: 180 } } },
+          e22f: { label: '2층',   file: 'images/e2/e22f.webp',  prev: 'e21f',next: 'e23f', hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -10, yaw: 180 } } },
+          e23f: { label: '3층',   file: 'images/e2/e23f.webp',  prev: 'e22f',next: null,   hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -10, yaw: 180 } } },
+        }
+      },
+      e10_1: {
+        name: '백신생명공학동',
+        scenes: {
+          e10_11f: { label: '1층',  file: 'images/e10_1/e10_11f.webp', prev: null,     next: 'e10_12f', hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -10, yaw: 180 } } },
+          e10_12f: { label: '2층',  file: 'images/e10_1/e10_12f.webp', prev: 'e10_11f',next: 'e10_13f', hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -10, yaw: 180 } } },
+          e10_13f: { label: '3층',  file: 'images/e10_1/e10_13f.webp', prev: 'e10_12f',next: null,      hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -10, yaw: 180 } } },
         }
       }
     };
@@ -1464,6 +1493,15 @@
     { label: '음악관 1층 복도',building: 'e14', sceneId: 'e141fb', tags: ['음악','e14','1층','복도'] },
     { label: '음악관 2층',     building: 'e14', sceneId: 'e142f',  tags: ['음악','e14','2층'] },
     { label: '음악관 3층',     building: 'e14', sceneId: 'e143f',  tags: ['음악','e14','3층'] },
+    // 창의인재관
+    { label: '창의인재관 입구', building: 'e2', sceneId: 'e2e',  tags: ['창의','인재','e2','입구'] },
+    { label: '창의인재관 1층',  building: 'e2', sceneId: 'e21f', tags: ['창의','인재','e2','1층'] },
+    { label: '창의인재관 2층',  building: 'e2', sceneId: 'e22f', tags: ['창의','인재','e2','2층'] },
+    { label: '창의인재관 3층',  building: 'e2', sceneId: 'e23f', tags: ['창의','인재','e2','3층'] },
+    // 백신생명공학동
+    { label: '백신생명공학동 1층', building: 'e10_1', sceneId: 'e10_11f', tags: ['백신','생명','공학','e10-1','e10_1','1층'] },
+    { label: '백신생명공학동 2층', building: 'e10_1', sceneId: 'e10_12f', tags: ['백신','생명','공학','e10-1','e10_1','2층'] },
+    { label: '백신생명공학동 3층', building: 'e10_1', sceneId: 'e10_13f', tags: ['백신','생명','공학','e10-1','e10_1','3층'] },
   ];
 
   /* ═══════════════════════════════════════════════════
@@ -1676,6 +1714,10 @@
     // 음악관
     e14e:   { x:60, y:195 }, e141f:  { x:60, y:168 }, e141fa: { x:60, y:141 },
     e141fb: { x:60, y:114 }, e142f:  { x:60, y:87  }, e143f:  { x:60, y:60  },
+    // 창의인재관
+    e2e:  { x:60, y:195 }, e21f: { x:60, y:147 }, e22f: { x:60, y:99 }, e23f: { x:60, y:51 },
+    // 백신생명공학동
+    e10_11f: { x:60, y:175 }, e10_12f: { x:60, y:110 }, e10_13f: { x:60, y:45 },
   };
 
   function updateMinimap(buildingCode, sceneId) {
