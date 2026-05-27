@@ -1,0 +1,7 @@
+# 파일명 규칙: {건물코드}{씬번호}.webp
+# 예시:
+#   w8e.webp    → 입구
+#   w81f.webp   → 1층
+#   w82f.webp   → 2층
+#   ...
+# 변환: cwebp -q 82 -resize 4096 2048 입력파일.jpg -o w81f.webp
