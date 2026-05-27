@@ -963,7 +963,8 @@
           e141fa: { label: '1층 (옆)',   file: 'images/e14/e141fa.webp', prev: 'e141f', next: 'e141fb', hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -10, yaw: 180 } } },
           e141fb: { label: '1층 복도',   file: 'images/e14/e141fb.webp', prev: 'e141fa',next: 'e142f',  hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -10, yaw: 180 } } },
           e142f:  { label: '2층',        file: 'images/e14/e142f.webp',  prev: 'e141fb',next: 'e143f',  hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -10, yaw: 180 } } },
-          e143f:  { label: '3층',        file: 'images/e14/e143f.webp',  prev: 'e142f', next: null,     hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -10, yaw: 180 } } },
+          e143f:  { label: '3층',        file: 'images/e14/e143f.webp',  prev: 'e142f', next: 'e143fa', hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -10, yaw: 180 } } },
+          e143fa: { label: '3층 복도',   file: 'images/e14/e143fa.webp', prev: 'e143f', next: null,     hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -10, yaw: 180 } } },
         }
       },
       e2: {
@@ -1513,6 +1514,7 @@
     { label: '음악관 1층 복도',building: 'e14', sceneId: 'e141fb', tags: ['음악','e14','1층','복도'] },
     { label: '음악관 2층',     building: 'e14', sceneId: 'e142f',  tags: ['음악','e14','2층'] },
     { label: '음악관 3층',     building: 'e14', sceneId: 'e143f',  tags: ['음악','e14','3층'] },
+    { label: '음악관 3층 복도',building: 'e14', sceneId: 'e143fa', tags: ['음악','e14','3층','복도'] },
     // 창의인재관
     { label: '창의인재관 입구', building: 'e2', sceneId: 'e2e',  tags: ['창의','인재','e2','입구'] },
     { label: '창의인재관 1층',  building: 'e2', sceneId: 'e21f', tags: ['창의','인재','e2','1층'] },
@@ -1732,8 +1734,8 @@
     e13e:  { x:60, y:195 }, e131f: { x:60, y:157 }, e132f: { x:60, y:119 },
     e133f: { x:60, y:81  }, e134f: { x:60, y:43  },
     // 음악관
-    e14e:   { x:60, y:195 }, e141f:  { x:60, y:168 }, e141fa: { x:60, y:141 },
-    e141fb: { x:60, y:114 }, e142f:  { x:60, y:87  }, e143f:  { x:60, y:60  },
+    e14e:   { x:60, y:195 }, e141f:  { x:60, y:163 }, e141fa: { x:60, y:131 },
+    e141fb: { x:60, y:99  }, e142f:  { x:60, y:67  }, e143f:  { x:60, y:35  }, e143fa: { x:90, y:35 },
     // 창의인재관
     e2e:  { x:60, y:195 }, e21f: { x:60, y:147 }, e22f: { x:60, y:99 }, e23f: { x:60, y:51 },
     // 백신생명공학동
