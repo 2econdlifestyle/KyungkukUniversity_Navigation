@@ -854,11 +854,11 @@
       scenes: {
         w10e:  { label: '입구',     file: 'images/w10/w10e.webp',  prev: null,    next: 'w102f', hs: { next: { pitch: 3.4, yaw: -99.3 }, prev: { pitch: -10, yaw: 180 } } },
         w101f: { label: '1층',      file: 'images/w10/w101f.webp', prev: null,    next: 'w102f', hs: { next: { pitch: 10.7, yaw: -140.7 }, prev: { pitch: -10, yaw: 180 } } },
-        w102f: { label: '2층', file: 'images/w10/w102f.webp', prev: 'w101f', next: 'w103f', hs: { next: { pitch: 4, yaw: 45.6 }, prev: { pitch: -10, yaw: 57.5 }, extra: [{ targetId: 'w10e', pitch: -0.8, yaw: -155.6, dir: '입구' }] } },
-        w103f: { label: '3층', file: 'images/w10/w103f.webp', prev: 'w102f', next: 'w104f', hs: { next: { pitch: -4.8, yaw: 10.1 }, prev: { pitch: -10.8, yaw: 56.5 } } },
-        w104f: { label: '4층', file: 'images/w10/w104f.webp', prev: 'w103f', next: 'w105f', hs: { next: { pitch: 2.4, yaw: -136.3 }, prev: { pitch: 1.6, yaw: -68.5 } } },
-        w105f: { label: '5층', file: 'images/w10/w105f.webp', prev: 'w104f', next: 'w106f', hs: { next: { pitch: -5.1, yaw: 163.9 }, prev: { pitch: 1.7, yaw: -114.9 } } },
-        w106f: { label: '6층', file: 'images/w10/w106f.webp', prev: 'w105f', next: null,    hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -4.6, yaw: 116.5 } } },
+        w102f: { label: '2층', file: 'images/w10/w102f.webp', prev: 'w101f', next: 'w103f', hs: { next: { pitch: 4, yaw: 45.6 }, prev: { pitch: -10, yaw: 57.5 }, extra: [{ targetId: 'w10e', pitch: -0.8, yaw: -155.6, dir: '입구' }], dept: { pitch: 2.6, yaw: 2.7, url: 'https://elect.gknu.ac.kr', label: '전자공학전공' } } },
+        w103f: { label: '3층', file: 'images/w10/w103f.webp', prev: 'w102f', next: 'w104f', hs: { next: { pitch: -4.8, yaw: 10.1 }, prev: { pitch: -10.8, yaw: 56.5 }, dept: { pitch: 12, yaw: -139.2, url: 'https://ice.gknu.ac.kr', label: '디지털ICT공학전공' } } },
+        w104f: { label: '4층', file: 'images/w10/w104f.webp', prev: 'w103f', next: 'w105f', hs: { next: { pitch: 2.4, yaw: -136.3 }, prev: { pitch: 1.6, yaw: -68.5 }, dept: { pitch: 0.8, yaw: -54.9, url: 'https://computer.gknu.ac.kr', label: '컴퓨터공학과' } } },
+        w105f: { label: '5층', file: 'images/w10/w105f.webp', prev: 'w104f', next: 'w106f', hs: { next: { pitch: -5.1, yaw: 163.9 }, prev: { pitch: 1.7, yaw: -114.9 }, dept: { pitch: 0.6, yaw: -93.2, url: 'https://mecha.gknu.ac.kr', label: '기계공학전공' } } },
+        w106f: { label: '6층', file: 'images/w10/w106f.webp', prev: 'w105f', next: null,    hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -4.6, yaw: 116.5 }, dept: { pitch: 0.7, yaw: -153, url: 'https://ee.gknu.ac.kr', label: '전기에너지공학전공' }, dept2: { pitch: 2.1, yaw: -130, url: 'https://apmater.gknu.ac.kr', label: '신소재에너지공학전공' } } },
       }
     },
       w11: {
@@ -1131,13 +1131,13 @@
     }
 
     // 학과 홈페이지 핫스팟
-    if (scene.hs && scene.hs.dept) {
-      const dp = scene.hs.dept;
+    [scene.hs?.dept, scene.hs?.dept2].forEach(dp => {
+      if (!dp) return;
       const dpEl = createDeptHotspot(dp.label, dp.url);
       fmHotspots.push({ pos: { pitch: dp.pitch, yaw: dp.yaw }, el: dpEl });
       dpEl.addEventListener('click', (e) => { e.stopPropagation(); window.open(dp.url, '_blank'); });
       container.appendChild(dpEl);
-    }
+    });
 
     // 전체 핫스팟 (이동 + 안내도 + 학과) 위치 업데이트
     const allHotspots = [...hotspots, ...fmHotspots];
