@@ -264,8 +264,8 @@
       position: absolute;
       z-index: 80;
       pointer-events: all;
-      /* 중심 기준으로 배치 */
-      transform: translate(-50%, -50%);
+      left: 0; top: 0;
+      will-change: transform;
     }
 
     .hs-circle {
@@ -307,7 +307,8 @@
     .hs-floormap {
       position: absolute;
       z-index: 90;
-      transform: translate(-50%, -50%);
+      left: 0; top: 0;
+      will-change: transform;
       cursor: pointer;
     }
 
@@ -395,7 +396,8 @@
     .hs-dept {
       position: absolute;
       z-index: 90;
-      transform: translate(-50%, -50%);
+      left: 0; top: 0;
+      will-change: transform;
       cursor: pointer;
     }
 
@@ -1142,6 +1144,7 @@
     // 전체 핫스팟 (이동 + 안내도 + 학과) 위치 업데이트
     const allHotspots = [...hotspots, ...fmHotspots];
 
+    const D = Math.PI / 180;
     function update() {
       const v = viewers[activeSlot];
       if (!v) { hsRafId = requestAnimationFrame(update); return; }
@@ -1150,21 +1153,35 @@
       let camYaw, camPitch, hfov;
       try { camYaw = v.getYaw(); camPitch = v.getPitch(); hfov = v.getHfov(); }
       catch(e) { hsRafId = requestAnimationFrame(update); return; }
-      const vfov = hfov * (H / W);
+
+      // 원근 투영 — 선형 근사 대신 구면→스크린 정확 변환
+      const cy = camYaw * D, cp = camPitch * D;
+      const sinCY = Math.sin(cy), cosCY = Math.cos(cy);
+      const sinCP = Math.sin(cp), cosCP = Math.cos(cp);
+      // 카메라 기저 벡터 (forward, right, up)
+      const fX = cosCP * sinCY,  fY = sinCP,  fZ = -cosCP * cosCY; // forward
+      const rX = cosCY,          rY = 0,      rZ = sinCY;           // right
+      const uX = -sinCY * sinCP, uY = cosCP,  uZ = -cosCY * sinCP; // up
+      const focal = (W / 2) / Math.tan((hfov * D) / 2);
+
       allHotspots.forEach(hs => {
         if (!hs.el.parentNode) return;
-        let dy = hs.pos.yaw - camYaw;
-        while (dy >  180) dy -= 360;
-        while (dy < -180) dy += 360;
-        const dp = hs.pos.pitch - camPitch;
-        const inView = Math.abs(dy) < hfov/2 + 10 && Math.abs(dp) < vfov/2 + 10;
-        if (!inView) { hs.el.style.display = 'none'; }
-        else {
-          const x = W/2 + (dy/(hfov/2))*(W/2);
-          const y = H/2 - (dp/(vfov/2))*(H/2);
-          hs.el.style.left = x + 'px'; hs.el.style.top = y + 'px';
-          hs.el.style.display = 'block';
+        const hy = hs.pos.yaw * D, hp = hs.pos.pitch * D;
+        const hX = Math.cos(hp) * Math.sin(hy);
+        const hY = Math.sin(hp);
+        const hZ = -Math.cos(hp) * Math.cos(hy);
+        const pz = hX*fX + hY*fY + hZ*fZ; // 카메라 앞/뒤
+        if (pz <= 0.01) { hs.el.style.display = 'none'; return; }
+        const px = hX*rX + hY*rY + hZ*rZ; // 좌우
+        const py = hX*uX + hY*uY + hZ*uZ; // 상하
+        const sx = W/2 + (px/pz) * focal;
+        const sy = H/2 - (py/pz) * focal;
+        // 화면 밖 마진 컷
+        if (sx < -60 || sx > W+60 || sy < -60 || sy > H+60) {
+          hs.el.style.display = 'none'; return;
         }
+        hs.el.style.transform = `translate(calc(${sx}px - 50%), calc(${sy}px - 50%))`;
+        hs.el.style.display = 'block';
       });
       hsRafId = requestAnimationFrame(update);
     }
