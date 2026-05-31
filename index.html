@@ -852,9 +852,9 @@
     w10: {
       name: '공학 1호관',
       scenes: {
-        w10e:  { label: '입구',     file: 'images/w10/w10e.webp',  prev: null,    next: 'w101f', hs: { next: { pitch: 3.4, yaw: -99.3 }, prev: { pitch: -10, yaw: 180 } } },
-        w101f: { label: '1층',      file: 'images/w10/w101f.webp', prev: 'w10e',  next: 'w102f', hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -10, yaw: 180 } } },
-        w102f: { label: '2층', file: 'images/w10/w102f.webp', prev: 'w101f', next: 'w103f', hs: { next: { pitch: 4, yaw: 45.6 }, prev: { pitch: -1.5, yaw: -155.3 } } },
+        w101f: { label: '1층',      file: 'images/w10/w101f.webp', prev: null,    next: 'w10e',  hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -10, yaw: 180 } } },
+        w10e:  { label: '입구',     file: 'images/w10/w10e.webp',  prev: 'w101f', next: 'w102f', hs: { next: { pitch: 3.4, yaw: -99.3 }, prev: { pitch: -10, yaw: 180 } } },
+        w102f: { label: '2층', file: 'images/w10/w102f.webp', prev: 'w10e',  next: 'w103f', hs: { next: { pitch: 4, yaw: 45.6 }, prev: { pitch: -10, yaw: 57.5 } } },
         w103f: { label: '3층', file: 'images/w10/w103f.webp', prev: 'w102f', next: 'w104f', hs: { next: { pitch: -4.8, yaw: 10.1 }, prev: { pitch: -10.8, yaw: 56.5 } } },
         w104f: { label: '4층', file: 'images/w10/w104f.webp', prev: 'w103f', next: 'w105f', hs: { next: { pitch: 2.4, yaw: -136.3 }, prev: { pitch: 1.6, yaw: -68.5 } } },
         w105f: { label: '5층', file: 'images/w10/w105f.webp', prev: 'w104f', next: 'w106f', hs: { next: { pitch: -5.1, yaw: 163.9 }, prev: { pitch: 1.7, yaw: -114.9 } } },
@@ -1698,7 +1698,7 @@
   // 씬별 미니맵 좌표 (x,y: 0~120 범위, 각 씬의 상대 위치)
   const minimapCoords = {
     // 공학 1호관 (수직 배치)
-    w10e:  { x:60, y:190 }, w101f: { x:60, y:165 }, w102f: { x:60, y:140 },
+    w101f: { x:60, y:200 }, w10e:  { x:60, y:178 }, w102f: { x:60, y:150 },
     w103f: { x:60, y:125 }, w104f: { x:60, y:100 }, w105f: { x:60, y:75 }, w106f: { x:60, y:50 },
     // 공학 2호관
     w111f: { x:60, y:190 }, w112f: { x:60, y:162 }, w113f: { x:60, y:134 },
