@@ -1161,7 +1161,7 @@
       // 카메라 기저 벡터 (forward, right, up)
       const fX = cosCP * sinCY,  fY = sinCP,  fZ = -cosCP * cosCY; // forward
       const rX = cosCY,          rY = 0,      rZ = sinCY;           // right
-      const uX = -sinCY * sinCP, uY = cosCP,  uZ = -cosCY * sinCP; // up
+      const uX = -sinCY * sinCP, uY = cosCP,  uZ =  cosCY * sinCP; // up = cross(right, forward)
       const focal = (W / 2) / Math.tan((hfov * D) / 2);
 
       allHotspots.forEach(hs => {
