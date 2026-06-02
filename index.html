@@ -1070,7 +1070,7 @@
   }
 
   function cleanupViewer() {
-    // 검색 닫기
+    sideMenuBuilt = false; // 건물 전환 시 사이드메뉴 재빌드
     if (searchOpen) toggleSearch();
     stopNavigation();
     stopTour();
@@ -1242,14 +1242,15 @@
   }
 
   function animateFOV(viewer, from, to, duration, onComplete) {
-    const steps = Math.round(duration / FOV_INTERVAL), delta = (to - from) / steps;
-    let cur = from, count = 0;
-    const timer = setInterval(() => {
-      cur += delta; count++;
+    const start = performance.now();
+    function tick(now) {
+      const t = Math.min((now - start) / duration, 1);
+      const cur = from + (to - from) * t;
       try { viewer.setHfov(cur, false); } catch(e) {}
-      if (count >= steps) { clearInterval(timer); try { viewer.setHfov(to, false); } catch(e) {} if (onComplete) onComplete(); }
-    }, FOV_INTERVAL);
-    return timer;
+      if (t < 1) requestAnimationFrame(tick);
+      else { try { viewer.setHfov(to, false); } catch(e) {} if (onComplete) onComplete(); }
+    }
+    requestAnimationFrame(tick);
   }
 
   function prepareViewer(sceneId, onReady) {
@@ -1279,44 +1280,46 @@
     removeHotspots();
     const curSlot = activeSlot, nxtSlot = curSlot === 'A' ? 'B' : 'A';
     const fadeEl = document.getElementById('fadeOverlay');
-    animateFOV(viewers[curSlot], NORMAL_FOV, ZOOM_OUT_FOV, 300, () => {
-      fadeEl.classList.add('fading');
-      const doTransition = () => {
-        fadeEl.classList.remove('fading');
-        const nxtPanoEl = document.getElementById('pano' + nxtSlot);
-        const nxtSlotEl = document.getElementById('slot' + nxtSlot);
-        const curSlotEl = document.getElementById('slot' + curSlot);
-        nxtPanoEl.innerHTML = '';
-        const freshDiv = document.createElement('div'); freshDiv.style.cssText = 'width:100%;height:100vh;';
-        nxtPanoEl.appendChild(freshDiv);
-        nxtSlotEl.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;';
-        curSlotEl.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;';
-        if (viewers[nxtSlot]) { viewers[nxtSlot].destroy(); viewers[nxtSlot] = null; }
-        const scene = currentBuilding.scenes[sceneId];
-        // 이미지 캐시 덕분에 Pannellum이 빠르게 로드
-        viewers[nxtSlot] = pannellum.viewer(freshDiv, { type:'equirectangular', panorama:scene.file, autoLoad:true, autoRotate:false, compass:false, hfov:ZOOM_IN_FOV, hotSpots:[] });
-        viewers[nxtSlot].on('load', () => {
-          setTimeout(() => {
-            animateFOV(viewers[nxtSlot], ZOOM_IN_FOV, NORMAL_FOV, 350, () => {
-              if (isAutoRotate) viewers[nxtSlot].startAutoRotate(-1.5);
-              nxtSlotEl.style.pointerEvents = 'all';
-              curSlotEl.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;opacity:0;';
-              activeSlot = nxtSlot; isTransitioning = false;
-              prepareAdjacentScenes(sceneId); renderHotspots(sceneId);
-            });
-          }, 50);
-        });
-        setTimeout(() => {
-          if (isTransitioning) {
-            document.getElementById('slot'+nxtSlot).style.pointerEvents = 'all';
-            document.getElementById('slot'+curSlot).style.cssText = 'position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;opacity:0;';
-            activeSlot = nxtSlot; isTransitioning = false; renderHotspots(sceneId);
-          }
-        }, 5000);
-      };
-      prepareViewer(sceneId);
-      setTimeout(doTransition, 100);
+
+    // 줌아웃 제거 → 즉시 페이드 시작
+    fadeEl.classList.add('fading');
+    const nxtPanoEl = document.getElementById('pano' + nxtSlot);
+    const nxtSlotEl = document.getElementById('slot' + nxtSlot);
+    const curSlotEl = document.getElementById('slot' + curSlot);
+    nxtPanoEl.innerHTML = '';
+    const freshDiv = document.createElement('div'); freshDiv.style.cssText = 'width:100%;height:100vh;';
+    nxtPanoEl.appendChild(freshDiv);
+    nxtSlotEl.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;opacity:0;transition:opacity 0.25s;';
+    curSlotEl.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;';
+    if (viewers[nxtSlot]) { viewers[nxtSlot].destroy(); viewers[nxtSlot] = null; }
+    const scene = currentBuilding.scenes[sceneId];
+    viewers[nxtSlot] = pannellum.viewer(freshDiv, {
+      type:'equirectangular', panorama:scene.file,
+      autoLoad:true, autoRotate:false, compass:false, hfov:NORMAL_FOV, hotSpots:[]
     });
+    viewers[nxtSlot].on('load', () => {
+      fadeEl.classList.remove('fading');
+      // CSS 크로스페이드로 교체 (줌인 애니메이션 제거 → GPU 부하 감소)
+      requestAnimationFrame(() => {
+        nxtSlotEl.style.opacity = '1';
+        if (isAutoRotate) viewers[nxtSlot].startAutoRotate(-1.5);
+        setTimeout(() => {
+          nxtSlotEl.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:all;';
+          curSlotEl.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;opacity:0;';
+          activeSlot = nxtSlot; isTransitioning = false;
+          prepareAdjacentScenes(sceneId); renderHotspots(sceneId);
+        }, 260);
+      });
+    });
+    // 5초 폴백
+    setTimeout(() => {
+      if (isTransitioning) {
+        fadeEl.classList.remove('fading');
+        nxtSlotEl.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:all;';
+        curSlotEl.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;opacity:0;';
+        activeSlot = nxtSlot; isTransitioning = false; renderHotspots(sceneId);
+      }
+    }, 5000);
   }
 
   function firstLoad(sceneId) {
@@ -1360,18 +1363,27 @@
     }
   }
 
+  let sideMenuBuilt = false;
   function renderSideMenu(activeSceneId) {
-    const body = document.getElementById('sideMenuBody'); body.innerHTML = '';
-    Object.entries(buildingData).forEach(([bCode, bData]) => {
-      const label = document.createElement('div'); label.className = 'side-building-label'; label.textContent = bData.name; body.appendChild(label);
-      Object.entries(bData.scenes).forEach(([sId, scene]) => {
-        const btn = document.createElement('button');
-        const isCurrent = bCode === currentBuildingCode && sId === activeSceneId;
-        btn.className = 'side-scene-btn' + (isCurrent ? ' active' : '');
-        btn.innerHTML = `<span class="dot"></span>${scene.label}`;
-        btn.onclick = () => { closeSideMenu(); if (bCode === currentBuildingCode) goToScene(sId); else { cleanupViewer(); initViewer(bCode, sId); } };
-        body.appendChild(btn);
+    const body = document.getElementById('sideMenuBody');
+    if (!sideMenuBuilt) {
+      body.innerHTML = '';
+      Object.entries(buildingData).forEach(([bCode, bData]) => {
+        const label = document.createElement('div'); label.className = 'side-building-label'; label.textContent = bData.name; body.appendChild(label);
+        Object.entries(bData.scenes).forEach(([sId, scene]) => {
+          const btn = document.createElement('button');
+          btn.className = 'side-scene-btn';
+          btn.dataset.bcode = bCode; btn.dataset.sid = sId;
+          btn.innerHTML = `<span class="dot"></span>${scene.label}`;
+          btn.onclick = () => { closeSideMenu(); if (bCode === currentBuildingCode) goToScene(sId); else { cleanupViewer(); initViewer(bCode, sId); } };
+          body.appendChild(btn);
+        });
       });
+      sideMenuBuilt = true;
+    }
+    // active 클래스만 갱신
+    body.querySelectorAll('.side-scene-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.bcode === currentBuildingCode && btn.dataset.sid === activeSceneId);
     });
   }
 
