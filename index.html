@@ -871,11 +871,9 @@
       w12: {
         name: '공학 3호관',
         scenes: {
-          w12m:  { label: '메인홀',   file: 'images/w12/w12m.webp',  prev: null,    next: 'w12t',  hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -10, yaw: 180 } } },
-          w12t:  { label: '가는 길',  file: 'images/w12/w12t.webp',  prev: 'w12m',  next: 'w12e',  hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -10, yaw: 180 } } },
-          w12e:  { label: '입구',     file: 'images/w12/w12e.webp',  prev: 'w12t',  next: 'w121f', hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -10, yaw: 180 } } },
-          w121f: { label: '1층', file: 'images/w12/w121f.webp', prev: 'w12e',  next: 'w122f', hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -10, yaw: 180 } } },
-          w122f: { label: '2층', file: 'images/w12/w122f.webp', prev: 'w121f', next: 'w123f', hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -10, yaw: 180 } } },
+          w12e:  { label: '입구',  file: 'images/w12/w12e.webp',  prev: null,   next: 'w12m',  hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -10, yaw: 180 } } },
+          w12m:  { label: '1층',   file: 'images/w12/w12m.webp',  prev: 'w12e', next: 'w122f', hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -10, yaw: 180 } } },
+          w122f: { label: '2층', file: 'images/w12/w122f.webp', prev: 'w12m',  next: 'w123f', hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -10, yaw: 180 } } },
           w123f: { label: '3층', file: 'images/w12/w123f.webp', prev: 'w122f', next: 'w124f', hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -10, yaw: 180 } } },
           w124f: { label: '4층', file: 'images/w12/w124f.webp', prev: 'w123f', next: null,    hs: { next: { pitch: -10, yaw: 0 }, prev: { pitch: -10, yaw: 180 } } },
         }
@@ -1464,9 +1462,8 @@
     { label: '전기전자교육과',      building: 'w11', sceneId: 'w117f', tags: ['전기','전자','7층','공학2','w11'] },
     { label: '공학 2호관 7층',      building: 'w11', sceneId: 'w117f', tags: ['공학2','7층','w11'] },
     // 공학 3호관
-    { label: '공학 3호관 메인홀',   building: 'w12', sceneId: 'w12m',  tags: ['공학3','메인홀','w12'] },
     { label: '공학 3호관 입구',     building: 'w12', sceneId: 'w12e',  tags: ['공학3','입구','w12'] },
-    { label: '공학 3호관 1층',      building: 'w12', sceneId: 'w121f', tags: ['공학3','1층','w12'] },
+    { label: '공학 3호관 1층',      building: 'w12', sceneId: 'w12m',  tags: ['공학3','1층','w12'] },
     { label: '공학 3호관 2층',      building: 'w12', sceneId: 'w122f', tags: ['공학3','2층','w12'] },
     { label: '공학 3호관 3층',      building: 'w12', sceneId: 'w123f', tags: ['공학3','3층','w12'] },
     { label: '공학 3호관 4층',      building: 'w12', sceneId: 'w124f', tags: ['공학3','4층','w12'] },
@@ -1714,8 +1711,7 @@
     w111f: { x:60, y:190 }, w112f: { x:60, y:162 }, w113f: { x:60, y:134 },
     w114f: { x:60, y:106 }, w115f: { x:60, y:78  }, w116f: { x:60, y:50  }, w117f: { x:60, y:22  },
     // 공학 3호관
-    w12m:  { x:60, y:190 }, w12t:  { x:60, y:165 }, w12e:  { x:60, y:140 },
-    w121f: { x:60, y:115 }, w122f: { x:60, y:90  }, w123f: { x:60, y:65  }, w124f: { x:60, y:40  },
+    w12e:  { x:60, y:195 }, w12m:  { x:60, y:155 }, w122f: { x:60, y:110 }, w123f: { x:60, y:65  }, w124f: { x:60, y:20  },
     // 사범학관
     e5e:  { x:60, y:195 }, e51f: { x:60, y:157 }, e52f: { x:60, y:119 },
     e53f: { x:60, y:81  }, e54f: { x:60, y:43  },
