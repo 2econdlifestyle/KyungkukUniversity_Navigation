@@ -1424,7 +1424,10 @@
           nxtSlotEl.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:all;';
           curSlotEl.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;opacity:0;';
           activeSlot = nxtSlot; isTransitioning = false;
-          prepareAdjacentScenes(sceneId); renderHotspots(sceneId);
+          prepareAdjacentScenes(sceneId);
+          renderHotspots(sceneId);
+          // 길찾기 진행 중이면 새 핫스팟에 강조 재적용
+          if (navPath.length) highlightNavHotspot();
         }, 260);
       });
     });
@@ -1434,7 +1437,9 @@
         fadeEl.classList.remove('fading');
         nxtSlotEl.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:all;';
         curSlotEl.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;opacity:0;';
-        activeSlot = nxtSlot; isTransitioning = false; renderHotspots(sceneId);
+        activeSlot = nxtSlot; isTransitioning = false;
+        renderHotspots(sceneId);
+        if (navPath.length) highlightNavHotspot();
       }
     }, 5000);
   }
@@ -1465,17 +1470,15 @@
     updateFavBtn();
     // 방문 기록 추가
     addHistory(currentBuildingCode, sceneId);
-    // 길찾기 진행 체크
+    // 길찾기 진행 체크 (핫스팟 강조는 renderHotspots 완료 후 별도 실행)
     if (navPath.length && navStep < navPath.length - 1) {
       const expectedNext = navPath[navStep + 1];
       if (sceneId === expectedNext) {
         navStep++;
         updateNavBar();
-        highlightNavHotspot();
       } else if (navPath.includes(sceneId)) {
         navStep = navPath.indexOf(sceneId);
         updateNavBar();
-        highlightNavHotspot();
       }
     }
   }
@@ -1761,10 +1764,15 @@
     clearSearch();
     if (searchOpen) toggleSearch();
 
-    // 다른 건물이면 먼저 이동
+    // 다른 건물이면 먼저 이동 후 load 완료 시점에 재시도
     if (!currentBuilding || currentBuildingCode !== buildingCode) {
       enterViewer(buildingCode, Object.keys(buildingData[buildingCode].scenes)[0]);
-      setTimeout(() => startNavigation(buildingCode, destSceneId, destLabel), 1200);
+      const waitForLoad = setInterval(() => {
+        if (!isTransitioning && currentBuildingCode === buildingCode && currentSceneId) {
+          clearInterval(waitForLoad);
+          startNavigation(buildingCode, destSceneId, destLabel);
+        }
+      }, 100);
       return;
     }
 
