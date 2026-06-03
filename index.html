@@ -520,15 +520,29 @@
       .guide { grid-template-columns: 1fr; }
       .hero h2 { font-size: 26px; }
 
-      /* 툴바 — 모바일 가로 스크롤 */
+      /* 탑바 전체 — 모바일 */
+      .top-bar { padding: 10px 10px; gap: 8px; }
+
+      /* 뒤로가기 버튼 — 아이콘만 */
+      .back-btn { font-size: 0; padding: 7px 10px; }
+      .back-btn::before { content: '←'; font-size: 16px; }
+
+      /* 건물명 줄바꿈 방지 */
+      .location-info { min-width: 0; overflow: hidden; }
+      .location-building { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .location-scene { font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+      /* 위치 팝업 — 모바일에서 숨김 (미니맵 뱃지로 대체) */
+      .location-popup { display: none; }
+
+      /* 툴바 — 가로 스크롤 */
       .top-right {
         gap: 4px;
         overflow-x: auto;
         overflow-y: hidden;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
-        max-width: calc(100vw - 160px);
-        flex-shrink: 1;
+        flex-shrink: 0;
       }
       .top-right::-webkit-scrollbar { display: none; }
       .icon-btn {
@@ -537,7 +551,8 @@
         border-radius: 8px;
         flex-shrink: 0;
       }
-      /* 좌표 확인 버튼은 모바일에서 숨김 */
+      .icon-btn::after { display: none; } /* 툴팁 모바일 숨김 */
+      /* 좌표 확인 버튼 — 모바일 숨김 */
       #coordBtn { display: none; }
 
       /* 미니맵 — 모바일에서 텍스트 뱃지로 교체 */
@@ -1395,7 +1410,9 @@
     const scene = currentBuilding.scenes[sceneId];
     viewers[nxtSlot] = pannellum.viewer(freshDiv, {
       type:'equirectangular', panorama:scene.file,
-      autoLoad:true, autoRotate:false, compass:false, hfov:NORMAL_FOV, hotSpots:[]
+      autoLoad:true, autoRotate:false, compass:false,
+      showZoomCtrl:false, showFullscreenCtrl:false,
+      hfov:NORMAL_FOV, hotSpots:[]
     });
     viewers[nxtSlot].on('load', () => {
       fadeEl.classList.remove('fading');
@@ -1431,7 +1448,7 @@
     const scene = currentBuilding.scenes[sceneId];
     // 초기 로드 시 인접 이미지 즉시 캐시 시작
     preloadAdjacentImages(sceneId);
-    viewers['A'] = pannellum.viewer(freshDiv, { type:'equirectangular', panorama:scene.file, autoLoad:true, autoRotate:isAutoRotate?-1.5:0, compass:false, hfov:NORMAL_FOV, hotSpots:[] });
+    viewers['A'] = pannellum.viewer(freshDiv, { type:'equirectangular', panorama:scene.file, autoLoad:true, autoRotate:isAutoRotate?-1.5:0, compass:false, showZoomCtrl:false, showFullscreenCtrl:false, hfov:NORMAL_FOV, hotSpots:[] });
     viewers['A'].on('load', () => { document.getElementById('initLoading').classList.add('hide'); updateUI(sceneId); prepareAdjacentScenes(sceneId); renderHotspots(sceneId); });
     setTimeout(() => { document.getElementById('initLoading').classList.add('hide'); }, 4000);
   }
