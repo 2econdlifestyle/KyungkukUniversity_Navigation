@@ -1342,18 +1342,35 @@
     img.src = file;
     img.classList.remove('zoomed');
     document.getElementById('floormapOverlay').classList.add('show');
+    // 모달 열릴 때 핀치 줌으로 인한 viewport 확대 방지
+    const meta = document.querySelector('meta[name="viewport"]');
+    if (meta) meta.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no');
+  }
+
+  function _resetViewport() {
+    const meta = document.querySelector('meta[name="viewport"]');
+    if (!meta) return;
+    // maximum-scale=1 로 먼저 강제 초기화 후 정상 복원
+    meta.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1');
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      meta.setAttribute('content', 'width=device-width, initial-scale=1');
+    }));
   }
 
   function closeFloormap(e) {
     if (e.target === document.getElementById('floormapOverlay')) {
       document.getElementById('floormapOverlay').classList.remove('show');
+      document.getElementById('floormapImg').classList.remove('zoomed');
       document.getElementById('floormapImg').src = '';
+      _resetViewport();
     }
   }
 
   function closeFloormapBtn() {
     document.getElementById('floormapOverlay').classList.remove('show');
+    document.getElementById('floormapImg').classList.remove('zoomed');
     document.getElementById('floormapImg').src = '';
+    _resetViewport();
   }
 
   function toggleFloormapZoom(img) {
